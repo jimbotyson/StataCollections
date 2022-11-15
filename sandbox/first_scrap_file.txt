@@ -1,0 +1,333 @@
+
+  ___  ____  ____  ____  ____ ®
+ /__    /   ____/   /   ____/      17.0
+___/   /   /___/   /   /___/       MP—Parallel Edition
+
+ Statistics and Data Science       Copyright 1985-2021 StataCorp LLC
+                                   StataCorp
+                                   4905 Lakeway Drive
+                                   College Station, Texas 77845 USA
+                                   800-STATA-PC        https://www.stata.com
+                                   979-696-4600        stata@stata.com
+
+Stata license: Unlimited-user 2-core network, expiring  9 Sep 2022
+Serial number: 501709309029
+  Licensed to: Jim Tyson
+               University College London
+
+Notes:
+      1. Unicode is supported; see help unicode_advice.
+      2. More than 2 billion observations are allowed; see help obs_advice.
+      3. Maximum number of variables is set to 5,000; see help set_maxvar.
+
+. use https://www.ucl.ac.uk/~ccaajim/results
+
+. list if maths > 100
+
+     +--------------------------------------------------+
+ 11. | surname |         gender |       teacher | maths |
+     |  DENCIK | Female Student | teacher Three |   500 |
+     |--------------------------------------------------|
+     |    english    |    history     |    outofr~e     |
+     |         67    |         65     |           0     |
+     +--------------------------------------------------+
+
+. replace maths = 57 if maths > 100
+(1 real change made)
+
+. collect: bysort sex summ maths
+invalid use of by prefix
+r(198);
+
+. sort sex
+variable sex not found
+r(111);
+
+. collect: bysort gender summ maths
+invalid use of by prefix
+r(198);
+
+. collect: by: gender summ maths
+varlist required
+r(100);
+
+. collect: by gender: summ maths
+not sorted
+r(5);
+
+. sort gender
+
+. collect: by gender: summ maths
+
+-------------------------------------------------------------
+-> gender = Female Student
+
+    Variable |        Obs        Mean    Std. dev.       Min 
+>        Max
+-------------+-----------------------------------------------
+> ----------
+       maths |         15        54.6    6.400893         44 
+>         64
+
+-------------------------------------------------------------
+-> gender = Male Student
+
+    Variable |        Obs        Mean    Std. dev.       Min 
+>        Max
+-------------+-----------------------------------------------
+> ----------
+       maths |         15    52.93333    6.295879         39 
+>         62
+
+. collect layout
+
+Your layout specification does not identify any items.
+
+. sort gender class
+variable class not found
+r(111);
+
+. sort gender teacher
+
+. collect: by gender teacher: summ maths
+
+-------------------------------------------------------------
+-> gender = Female Student, teacher = teacher Two
+
+    Variable |        Obs        Mean    Std. dev.       Min 
+>        Max
+-------------+-----------------------------------------------
+> ----------
+       maths |          5        50.8    5.630275         44 
+>         59
+
+-------------------------------------------------------------
+-> gender = Female Student, teacher = teacher Three
+
+    Variable |        Obs        Mean    Std. dev.       Min 
+>        Max
+-------------+-----------------------------------------------
+> ----------
+       maths |         10        56.5     6.13279         45 
+>         64
+
+-------------------------------------------------------------
+-> gender = Male Student, teacher = teacher One
+
+    Variable |        Obs        Mean    Std. dev.       Min 
+>        Max
+-------------+-----------------------------------------------
+> ----------
+       maths |          9    50.66667    7.053368         39 
+>         60
+
+-------------------------------------------------------------
+-> gender = Male Student, teacher = teacher Two
+
+    Variable |        Obs        Mean    Std. dev.       Min 
+>        Max
+-------------+-----------------------------------------------
+> ----------
+       maths |          5        56.6    3.130495         54 
+>         62
+
+-------------------------------------------------------------
+-> gender = Male Student, teacher = 4
+
+    Variable |        Obs        Mean    Std. dev.       Min 
+>        Max
+-------------+-----------------------------------------------
+> ----------
+       maths |          1          55           .         55 
+>         55
+
+. collect clear
+
+. sort teacher sex
+variable sex not found
+r(111);
+
+. sort teacher gender
+
+. collect: by teacher: summarize maths
+
+-------------------------------------------------------------
+-> teacher = teacher One
+
+    Variable |        Obs        Mean    Std. dev.       Min 
+>        Max
+-------------+-----------------------------------------------
+> ----------
+       maths |          9    50.66667    7.053368         39 
+>         60
+
+-------------------------------------------------------------
+-> teacher = teacher Two
+
+    Variable |        Obs        Mean    Std. dev.       Min 
+>        Max
+-------------+-----------------------------------------------
+> ----------
+       maths |         10        53.7    5.271517         44 
+>         62
+
+-------------------------------------------------------------
+-> teacher = teacher Three
+
+    Variable |        Obs        Mean    Std. dev.       Min 
+>        Max
+-------------+-----------------------------------------------
+> ----------
+       maths |         10        56.5     6.13279         45 
+>         64
+
+-------------------------------------------------------------
+-> teacher = 4
+
+    Variable |        Obs        Mean    Std. dev.       Min 
+>        Max
+-------------+-----------------------------------------------
+> ----------
+       maths |          1          55           .         55 
+>         55
+
+. collect: by teacher: summarize maths
+
+-------------------------------------------------------------------------------------------
+-> teacher = teacher One
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+       maths |          9    50.66667    7.053368         39         60
+
+-------------------------------------------------------------------------------------------
+-> teacher = teacher Two
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+       maths |         10        53.7    5.271517         44         62
+
+-------------------------------------------------------------------------------------------
+-> teacher = teacher Three
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+       maths |         10        56.5     6.13279         45         64
+
+-------------------------------------------------------------------------------------------
+-> teacher = 4
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+       maths |          1          55           .         55         55
+
+. head teacher
+command head is unrecognized
+r(199);
+
+. list teacher in 1/10
+
+     +-------------+
+     |     teacher |
+     |-------------|
+  1. | teacher One |
+  2. | teacher One |
+  3. | teacher One |
+  4. | teacher One |
+  5. | teacher One |
+     |-------------|
+  6. | teacher One |
+  7. | teacher One |
+  8. | teacher One |
+  9. | teacher One |
+ 10. | teacher Two |
+     +-------------+
+
+. edit
+
+. replace teacher = 3 in 30
+(1 real change made)
+
+. save "https://www.ucl.ac.uk/~ccaajim/results.dta", replace
+may not write files over Internet
+r(633);
+
+. collect: by teacher: summarize maths
+not sorted
+r(5);
+
+. sort teacher gender
+
+. collect: by teacher gender: summarize maths
+
+-------------------------------------------------------------------------------------------
+-> teacher = teacher One, gender = Male Student
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+       maths |          9    50.66667    7.053368         39         60
+
+-------------------------------------------------------------------------------------------
+-> teacher = teacher Two, gender = Female Student
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+       maths |          5        50.8    5.630275         44         59
+
+-------------------------------------------------------------------------------------------
+-> teacher = teacher Two, gender = Male Student
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+       maths |          5        56.6    3.130495         54         62
+
+-------------------------------------------------------------------------------------------
+-> teacher = teacher Three, gender = Female Student
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+       maths |         10        56.5     6.13279         45         64
+
+-------------------------------------------------------------------------------------------
+-> teacher = teacher Three, gender = Male Student
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+       maths |          1          55           .         55         55
+
+. collect preview
+
+Your layout specification does not identify any items.
+
+. collect layout (teacher) (gender) result([mean])
+invalid table dimensions specification; result([mean]) found where parentheses bound
+table dimensions expected
+r(198);
+
+. collect layout (teacher) (gender) (result[mean])
+
+Collection: default
+      Rows: teacher
+   Columns: gender
+    Tables: result[mean]
+   Table 1: 3 x 2
+
+-------------------------------------------
+              | Male Student Female Student
+--------------+----------------------------
+teacher One   |     50.66667               
+teacher Two   |         56.6           50.8
+teacher Three |           55           56.5
+-------------------------------------------
+
+. collect preview
+
+-------------------------------------------
+              | Male Student Female Student
+--------------+----------------------------
+teacher One   |     50.66667               
+teacher Two   |         56.6           50.8
+teacher Three |           55           56.5
+-------------------------------------------
+
+. 

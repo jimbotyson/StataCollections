@@ -1,0 +1,34 @@
+---
+title: "Collections and Tables"
+author: "Jim Tyson"
+date: "28/03/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Collections and Tables
+
+The tables created here are all based on results collected from other commands, commands not documented in this manual, commands like regress, margins, bayes, ttest, mi, mean, table, and so on.
+
+We call the collected results from one or more commands collections. The purpose of this manual is to explain how to create collections, manage collections, create tables from collections, and export those tables.
+
+Collections are the collected results from one or more commands. They contain every result stored by the commands. They also contain labels for everything in the collection
+
+Collections also contain styles. Styles determine how everything looks on the tables you create.
+
+There are three primary reasons you may need collections.
+
+1.  You want to create a table showing the results from more than one command.
+
+2.  You want to customize how a table looks---layout, headers, numeric formats, bolding, italics, colors, etc.
+
+3.  You want to present your results in Microsoft Word, Microsoft Excel, PDF, HTML, LATEX, SMCL, or Markdown.
+
+Other commands produce tabular results; primary among these is table.
+
+If you want to customize the layout and appearance of the results from these commands, then collect their results.
+
+There is one key concept on which the collection system is built---tags.

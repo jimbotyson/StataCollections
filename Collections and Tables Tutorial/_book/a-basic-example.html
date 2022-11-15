@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>10 A basic example | Collections and Tables in Stata 17</title>
+  <meta name="description" content="10 A basic example | Collections and Tables in Stata 17" />
+  <meta name="generator" content="bookdown 0.25 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="10 A basic example | Collections and Tables in Stata 17" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta name="github-repo" content="jimbotyson/collectionsandtables" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="10 A basic example | Collections and Tables in Stata 17" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="collections.html"/>
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="css/readthedocs.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction<span></span></a></li>
+<li class="chapter" data-level="2" data-path="acknowledgments.html"><a href="acknowledgments.html"><i class="fa fa-check"></i><b>2</b> Acknowledgments<span></span></a></li>
+<li class="chapter" data-level="3" data-path="getting-started.html"><a href="getting-started.html"><i class="fa fa-check"></i><b>3</b> Getting Started<span></span></a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="getting-started.html"><a href="getting-started.html#prerequisites"><i class="fa fa-check"></i><b>3.1</b> Prerequisites<span></span></a></li>
+<li class="chapter" data-level="3.2" data-path="getting-started.html"><a href="getting-started.html#software-requirements"><i class="fa fa-check"></i><b>3.2</b> Software Requirements<span></span></a></li>
+<li class="chapter" data-level="3.3" data-path="getting-started.html"><a href="getting-started.html#how-to-use-these-materials"><i class="fa fa-check"></i><b>3.3</b> How to use these materials<span></span></a></li>
+<li class="chapter" data-level="3.4" data-path="getting-started.html"><a href="getting-started.html#data"><i class="fa fa-check"></i><b>3.4</b> Data<span></span></a></li>
+<li class="chapter" data-level="3.5" data-path="getting-started.html"><a href="getting-started.html#reference-material"><i class="fa fa-check"></i><b>3.5</b> Reference material<span></span></a></li>
+<li class="chapter" data-level="3.6" data-path="getting-started.html"><a href="getting-started.html#to-be-added"><i class="fa fa-check"></i><b>3.6</b> To be added<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="some-stata-table-basics.html"><a href="some-stata-table-basics.html"><i class="fa fa-check"></i><b>4</b> Some Stata <code>table</code> basics<span></span></a></li>
+<li class="chapter" data-level="5" data-path="the-table-command.html"><a href="the-table-command.html"><i class="fa fa-check"></i><b>5</b> The table command<span></span></a></li>
+<li class="chapter" data-level="6" data-path="exercise.html"><a href="exercise.html"><i class="fa fa-check"></i><b>6</b> Exercise<span></span></a></li>
+<li class="chapter" data-level="7" data-path="more-variables.html"><a href="more-variables.html"><i class="fa fa-check"></i><b>7</b> More variables<span></span></a></li>
+<li class="chapter" data-level="8" data-path="exercise-1.html"><a href="exercise-1.html"><i class="fa fa-check"></i><b>8</b> Exercise<span></span></a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="exercise-1.html"><a href="exercise-1.html#adding-statistics"><i class="fa fa-check"></i><b>8.1</b> Adding statistics<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="collections.html"><a href="collections.html"><i class="fa fa-check"></i><b>9</b> Collections<span></span></a></li>
+<li class="chapter" data-level="10" data-path="a-basic-example.html"><a href="a-basic-example.html"><i class="fa fa-check"></i><b>10</b> A basic example<span></span></a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="a-basic-example.html"><a href="a-basic-example.html#adding-further-dimensions"><i class="fa fa-check"></i><b>10.1</b> Adding further dimensions<span></span></a></li>
+<li class="chapter" data-level="10.2" data-path="a-basic-example.html"><a href="a-basic-example.html#table-appearance"><i class="fa fa-check"></i><b>10.2</b> Table appearance<span></span></a></li>
+<li class="chapter" data-level="10.3" data-path="a-basic-example.html"><a href="a-basic-example.html#a-more-realistic-example"><i class="fa fa-check"></i><b>10.3</b> A more realistic example<span></span></a>
+<ul>
+<li class="chapter" data-level="10.3.1" data-path="a-basic-example.html"><a href="a-basic-example.html#information-about-a-collection"><i class="fa fa-check"></i><b>10.3.1</b> Information about a collection<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="10.4" data-path="a-basic-example.html"><a href="a-basic-example.html#modification-1"><i class="fa fa-check"></i><b>10.4</b> Modification 1<span></span></a></li>
+<li class="chapter" data-level="10.5" data-path="a-basic-example.html"><a href="a-basic-example.html#modification-2"><i class="fa fa-check"></i><b>10.5</b> Modification 2<span></span></a></li>
+<li class="chapter" data-level="10.6" data-path="a-basic-example.html"><a href="a-basic-example.html#adding-a-title"><i class="fa fa-check"></i><b>10.6</b> Adding a title<span></span></a>
+<ul>
+<li class="chapter" data-level="10.6.1" data-path="a-basic-example.html"><a href="a-basic-example.html#adding-a-note"><i class="fa fa-check"></i><b>10.6.1</b> Adding a note<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="10.7" data-path="a-basic-example.html"><a href="a-basic-example.html#saving-labels-and-styles"><i class="fa fa-check"></i><b>10.7</b> Saving labels and styles<span></span></a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Collections and Tables in Stata 17</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="a-basic-example" class="section level1 hasAnchor" number="10">
+<h1><span class="header-section-number">10</span> A basic example<a href="a-basic-example.html#a-basic-example" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>The table command automatically creates a <code>collection</code> and the first
+thing to do is to look at the table dimensions with <code>collect dims</code></p>
+<p><code>table teacher gender</code></p>
+<p><code>collect dims</code></p>
+<p>Which produces the table, as we expect and a description of the
+dimensions of the table:</p>
+<p><img src="images/firstcollectiondims.PNG" /></p>
+<p>We can examine a single level:</p>
+<p><code>collect levelsof gender</code></p>
+<p>which produces</p>
+<p><img src="images/collectlevelsgendersimple.PNG" /></p>
+<p>A more detailed version will explain what the level <code>.m</code> is:</p>
+<p><code>collect label list gender, all</code></p>
+<p><img src="images/collectlevelsgendersfull.PNG" /></p>
+<p>The total.</p>
+<p>The inclusion of total is determined by the form of the command <code>table</code>
+we used above.</p>
+<p>Notice that we can add labels or modify previously applied labels in our
+data set, so:</p>
+<p><code>collect label levels gender 1 "Female" 2 "Male", modify</code></p>
+<div id="adding-further-dimensions" class="section level2 hasAnchor" number="10.1">
+<h2><span class="header-section-number">10.1</span> Adding further dimensions<a href="a-basic-example.html#adding-further-dimensions" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>There are other dimension to our table that we might want to display or
+tabulate.</p>
+<p>First, let us recreate an earlier table with statistics:</p>
+<p><code>table (teacher gender) (stream), nototals statistic(frequency) statistic(mean avxm) nformat(%6.2f  mean)</code></p>
+<p>and preview it</p>
+<p><code>collect preview</code></p>
+<p>We see that there is a dimension <code>result</code> listed. This contains the
+results of any computations. We can list them with</p>
+<p><code>collect levelsof result</code></p>
+<p>Which produces:</p>
+<p><img src="images/collectlevelsresult1.PNG" /></p>
+<p>First let us modify the label used for the result of computing the mean
+in our collection:</p>
+<p><code>collect label levels result mean "Average", modify</code></p>
+<p>and check the result with <code>collect preview</code>:</p>
+<p><img src="images/changemeanlabel.PNG" /></p>
+</div>
+<div id="table-appearance" class="section level2 hasAnchor" number="10.2">
+<h2><span class="header-section-number">10.2</span> Table appearance<a href="a-basic-example.html#table-appearance" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Now we will turn to modifying the style of the table by changing the
+appearance of the borders.</p>
+</div>
+<div id="a-more-realistic-example" class="section level2 hasAnchor" number="10.3">
+<h2><span class="header-section-number">10.3</span> A more realistic example<a href="a-basic-example.html#a-more-realistic-example" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We start with a simple table summary</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb7-1"><a href="a-basic-example.html#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">use</span> https:<span class="co">//www.ucl.ac.uk/~ccaajim/results</span></span>
+<span id="cb7-2"><a href="a-basic-example.html#cb7-2" aria-hidden="true" tabindex="-1"></a>collect <span class="kw">clear</span></span>
+<span id="cb7-3"><a href="a-basic-example.html#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="kw">sort</span> gender teacher</span>
+<span id="cb7-4"><a href="a-basic-example.html#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="kw">quietly</span> collect: <span class="kw">by</span> gender teacher: <span class="kw">summarize</span> maths</span>
+<span id="cb7-5"><a href="a-basic-example.html#cb7-5" aria-hidden="true" tabindex="-1"></a>collect layout (gender) (teacher) (result[<span class="kw">mean</span>])</span></code></pre></div>
+<pre><code>Collection: default
+      Rows: gender
+   Columns: teacher
+    Tables: result[mean]
+   Table 1: 2 x 4
+
+---------------------------------------------------------
+               | teacher Two teacher Three teacher One  4
+---------------+-----------------------------------------
+Female Student |        50.8         100.8               
+Male Student   |        56.6                  50.66667 55
+---------------------------------------------------------</code></pre>
+<p>We see immediately from the result that <strong>layout</strong> takes the results of
+the <code>summarize</code> command and makes a table such that levels of <code>gender</code>
+are in rows and levels of <code>teacher</code> in columns. The cells of layout are
+filled with the computation specified in ’result[]`.</p>
+<div id="information-about-a-collection" class="section level3 hasAnchor" number="10.3.1">
+<h3><span class="header-section-number">10.3.1</span> Information about a collection<a href="a-basic-example.html#information-about-a-collection" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="dimensions-of-your-collection" class="section level4 hasAnchor" number="10.3.1.1">
+<h4><span class="header-section-number">10.3.1.1</span> Dimensions of your collection<a href="a-basic-example.html#dimensions-of-your-collection" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb9"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb9-1"><a href="a-basic-example.html#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">use</span> https:<span class="co">//www.ucl.ac.uk/~ccaajim/results</span></span>
+<span id="cb9-2"><a href="a-basic-example.html#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="a-basic-example.html#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">table</span> (gender) (teacher), <span class="co">///</span></span>
+<span id="cb9-4"><a href="a-basic-example.html#cb9-4" aria-hidden="true" tabindex="-1"></a>       statistic(<span class="kw">frequency</span>) <span class="co">///</span></span>
+<span id="cb9-5"><a href="a-basic-example.html#cb9-5" aria-hidden="true" tabindex="-1"></a>       statistic(<span class="kw">percent</span>) <span class="co">///</span></span>
+<span id="cb9-6"><a href="a-basic-example.html#cb9-6" aria-hidden="true" tabindex="-1"></a>       statistic(<span class="kw">mean</span> maths) <span class="co">///</span></span>
+<span id="cb9-7"><a href="a-basic-example.html#cb9-7" aria-hidden="true" tabindex="-1"></a>       statistic(<span class="fu">sd</span> maths) <span class="co">///</span></span>
+<span id="cb9-8"><a href="a-basic-example.html#cb9-8" aria-hidden="true" tabindex="-1"></a>       nototals <span class="co">///</span></span>
+<span id="cb9-9"><a href="a-basic-example.html#cb9-9" aria-hidden="true" tabindex="-1"></a>       nformat(%9.0fc <span class="kw">frequency</span>) <span class="co">///</span></span>
+<span id="cb9-10"><a href="a-basic-example.html#cb9-10" aria-hidden="true" tabindex="-1"></a>       sformat(<span class="st">&quot;%s%%&quot;</span> <span class="kw">percent</span>) <span class="co">///</span></span>
+<span id="cb9-11"><a href="a-basic-example.html#cb9-11" aria-hidden="true" tabindex="-1"></a>       nformat(%6.2f  <span class="kw">mean</span> <span class="fu">sd</span>) <span class="co">///</span></span>
+<span id="cb9-12"><a href="a-basic-example.html#cb9-12" aria-hidden="true" tabindex="-1"></a>       sformat(<span class="st">&quot;(%s)&quot;</span> <span class="fu">sd</span>) <span class="co">///</span></span>
+<span id="cb9-13"><a href="a-basic-example.html#cb9-13" aria-hidden="true" tabindex="-1"></a>         style(<span class="kw">table</span>-1)</span>
+<span id="cb9-14"><a href="a-basic-example.html#cb9-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-15"><a href="a-basic-example.html#cb9-15" aria-hidden="true" tabindex="-1"></a>collect dims</span></code></pre></div>
+<pre><code>                 |                       teacher                     
+                 |  teacher One   teacher Two   teacher Three       4
+-----------------+---------------------------------------------------
+          Gender |                                                   
+Female Student   |                          5              10        
+                 |                     16.67%          33.33%        
+                 |                      50.80          100.80        
+                 |                     (5.63)        (140.40)        
+                 |                                                   
+  Male Student   |            9             5                       1
+                 |       30.00%        16.67%                   3.33%
+                 |        50.67         56.60                   55.00
+                 |       (7.05)        (3.13)                     (.)
+---------------------------------------------------------------------
+
+
+Collection dimensions
+Collection: Table
+-----------------------------------------
+                   Dimension   No. levels
+-----------------------------------------
+Layout, style, header, label
+                      across   2         
+                      cmdset   1         
+                     colname   1         
+                     command   1         
+                      gender   2         
+                      result   4         
+                     statcmd   4         
+                     teacher   4         
+                         var   2         
+
+Style only
+                border_block   4         
+                   cell_type   4         
+-----------------------------------------</code></pre>
+<p>The output from <code>collect dims</code> tells us the names of the dimensions in
+out table and the levels associated with each. We can modify dimension
+labels:</p>
+<pre><code>collect label levels gender 1 &quot;girl&quot; 2 &quot;boy&quot;</code></pre>
+<p>Having made the modification we can view the change with
+<code>collect preview</code>.</p>
+<p>To view the list of labels of a dimension we can use, for example</p>
+<pre><code>collect label list result, all</code></pre>
+<p>Which tells us what has been collect by the result dimension in our
+table.</p>
+<p>The dimension <code>result</code> is not associated with any variable in our data
+set, but calculated by the <code>statistic()</code> function in our <code>collection</code>
+command.</p>
+</div>
+</div>
+</div>
+<div id="modification-1" class="section level2 hasAnchor" number="10.4">
+<h2><span class="header-section-number">10.4</span> Modification 1<a href="a-basic-example.html#modification-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We will first improve the display of the decimals in <code>result[]</code> by
+adding a <code>style cell</code> specification:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb13-1"><a href="a-basic-example.html#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">use</span> https:<span class="co">//www.ucl.ac.uk/~ccaajim/results</span></span>
+<span id="cb13-2"><a href="a-basic-example.html#cb13-2" aria-hidden="true" tabindex="-1"></a>collect <span class="kw">clear</span></span>
+<span id="cb13-3"><a href="a-basic-example.html#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="kw">sort</span> gender teacher</span>
+<span id="cb13-4"><a href="a-basic-example.html#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="kw">quietly</span> collect: <span class="kw">by</span> gender teacher: <span class="kw">summarize</span> maths</span>
+<span id="cb13-5"><a href="a-basic-example.html#cb13-5" aria-hidden="true" tabindex="-1"></a>collect style cell result[<span class="kw">mean</span>], nformat(%5.2f)</span>
+<span id="cb13-6"><a href="a-basic-example.html#cb13-6" aria-hidden="true" tabindex="-1"></a>collect layout (gender) (teacher) (result[<span class="kw">mean</span>])</span>
+<span id="cb13-7"><a href="a-basic-example.html#cb13-7" aria-hidden="true" tabindex="-1"></a>collect dims</span></code></pre></div>
+<pre><code>Collection: default
+      Rows: gender
+   Columns: teacher
+    Tables: result[mean]
+   Table 1: 2 x 4
+
+------------------------------------------------------------
+               | teacher Two teacher Three teacher One     4
+---------------+--------------------------------------------
+Female Student |       50.80        100.80                  
+Male Student   |       56.60                     50.67 55.00
+------------------------------------------------------------
+
+
+Collection dimensions
+Collection: default
+-----------------------------------------
+                   Dimension   No. levels
+-----------------------------------------
+Layout, style, header, label
+                      cmdset   5         
+                      gender   2         
+               program_class   2         
+                      result   8         
+                 result_type   1         
+                     teacher   4         
+
+Style only
+                border_block   4         
+                   cell_type   4         
+-----------------------------------------</code></pre>
+</div>
+<div id="modification-2" class="section level2 hasAnchor" number="10.5">
+<h2><span class="header-section-number">10.5</span> Modification 2<a href="a-basic-example.html#modification-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We will switch the place of the rows and columns. This involves no
+recalculation of any kind:</p>
+<pre><code>collect style cell result[mean], nformat(%5.2f)
+collect layout (teacher) (gender) (result[mean])</code></pre>
+</div>
+<div id="adding-a-title" class="section level2 hasAnchor" number="10.6">
+<h2><span class="header-section-number">10.6</span> Adding a title<a href="a-basic-example.html#adding-a-title" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<pre><code>collect style cell result[mean], nformat(%5.2f)
+collect title &quot;Some summary statistics&quot;
+collect layout (teacher) (gender) (result[mean])</code></pre>
+<div id="adding-a-note" class="section level3 hasAnchor" number="10.6.1">
+<h3><span class="header-section-number">10.6.1</span> Adding a note<a href="a-basic-example.html#adding-a-note" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<pre><code>collect style cell result[mean], nformat(%5.2f)
+collect title &quot;Some summary statistics&quot;
+collect notes &quot;These are not very useful&quot;
+collect layout (teacher) (gender) (result[mean])</code></pre>
+</div>
+</div>
+<div id="saving-labels-and-styles" class="section level2 hasAnchor" number="10.7">
+<h2><span class="header-section-number">10.7</span> Saving labels and styles<a href="a-basic-example.html#saving-labels-and-styles" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Once we like the look of our table, we can type collect label save to
+save our custom labels, and we can type collect style save to save our
+custom style.</p>
+<p>. collect label save MyLabels, replace (labels from Table saved to file
+MyLabels.stjson)</p>
+<p>. collect style save MyStyle, replace (style from Table saved to file
+MyStyle.stjson) Then, we can apply our labels and style to future tables
+using the style() and label() options in our table commands.</p>
+<p>. table (sex) (highbp), &gt; statistic(frequency) &gt; statistic(percent) &gt;
+statistic(mean age) &gt; statistic(sd age) &gt; nototals &gt; nformat(%9.0fc
+frequency) &gt; sformat(“%s%%” percent) &gt; nformat(%6.2f mean sd) &gt;
+sformat(“(%s)” sd) &gt; style(MyStyle, override) &gt; label(MyLabels)</p>
+<table>
+<colgroup>
+<col width="100%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Hypertension No Yes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">Sex Male Freq. 2,611 2,304 Percent 25.22% 22.26% Mean (Age) 42.86
+52.59 SD (Age) (16.97) (15.88) Female Freq. 3,364 2,072 Percent
+32.50% 20.02% Mean (Age) 41.62 57.62 SD (Age) (16.60) (13.26)</td>
+</tr>
+</tbody>
+</table>
+<p>Exporting tables to documents with collect export</p>
+<p>We can use collect export to export our table to many different file
+formats, including Microsoft Word and Excel, HTML 5 with CSS files,
+Markdown, PDF, LaTeX, SMCL, and plain text.</p>
+<p>I have used collect style putdocx in the example below to add a title to
+our table and to automatically fit the table within a Microsoft Word
+document. Then, I have used collect export to export the table to a
+Microsoft Word document.</p>
+<p>. collect style putdocx, layout(autofitcontents) &gt; title(“Table 1:
+Descriptive Statistics by Hypertension Status”)</p>
+<p>. collect export MyTable1.docx, as(docx) replace (collection Table
+exported to file MyTable1.docx)</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="collections.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": {}
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["statattutoriableal.pdf"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

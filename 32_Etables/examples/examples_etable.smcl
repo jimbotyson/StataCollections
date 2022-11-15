@@ -1,0 +1,2047 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\DELL\Documents\Data\Stata\Stata Training Material General\StataTraining\32_Etables\examples\examples_etable.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}10 Mar 2022, 16:10:29
+{txt}
+{com}. 
+. global Width16x9 = 1920*2
+{txt}
+{com}. global Height16x9 = 1080*2
+{txt}
+{com}. 
+. global Width4x3 = 1440*2
+{txt}
+{com}. global Height4x3 = 1080*2
+{txt}
+{com}. 
+. // set the graph scheme 
+. set scheme s1color
+{txt}
+{com}. // Define the local macro "GraphNum" so that graphs are numbered sequentially
+. local GraphNum = 1
+{txt}
+{com}. 
+. // Delete all .png files from the "graphs" folder
+. shell erase .\graphs\*.png /Q
+{txt}
+{com}. // Define the local macro "GraphNum" so that graphs are numbered sequentially
+. local GraphNum = 1
+{txt}
+{com}. 
+. /*
+> graph export ./graphs/`GraphNum'_LinearFemaleBar.png, as(png)           ///
+>              width($Width16x9) height($Height16x9) replace
+> local ++GraphNum
+> */
+. 
+. 
+. webuse nhanes2l
+{txt}(Second National Health and Nutrition Examination Survey)
+
+{com}. 
+. describe age sex race bmi diabetes highbp
+
+{txt}Variable      Storage   Display    Value
+    name         type    format    label      Variable label
+{hline}
+{p 0 48}{res}{bind:age            }{txt}{bind: byte    }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}Age (years){p_end}
+{p 0 48}{bind:sex            }{txt}{bind: byte    }{bind:{txt}%9.0g     }{space 1}{bind:sex      }{bind:  }{res}{res}Sex{p_end}
+{p 0 48}{bind:race           }{txt}{bind: byte    }{bind:{txt}%9.0g     }{space 1}{bind:race     }{bind:  }{res}{res}Race{p_end}
+{p 0 48}{bind:bmi            }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}Body mass index (BMI){p_end}
+{p 0 48}{bind:diabetes       }{txt}{bind: byte    }{bind:{txt}%12.0g    }{space 1}{bind:diabetes }{bind:  }{res}{res}Diabetes status{p_end}
+{p 0 48}{bind:highbp         }{txt}{bind: byte    }{bind:{txt}%8.0g     }{space 1}{bind:         }{stata "notes list highbp":*} {res}High blood pressure{p_end}
+{txt}
+{com}. 
+. 
+. // =============================================================================
+. //                             Tables for one model
+. // =============================================================================
+. 
+. // Basic example
+. // =============
+. logistic diabetes age i.sex i.race bmi
+{res}
+{txt}{col 1}Logistic regression{col 57}{lalign 13:Number of obs}{col 70} = {res}{ralign 6:10,349}
+{txt}{col 57}{lalign 13:LR chi2({res:5})}{col 70} = {res}{ralign 6:440.79}
+{txt}{col 57}{lalign 13:Prob > chi2}{col 70} = {res}{ralign 6:0.0000}
+{txt}{col 1}{lalign 14:Log likelihood}{col 15} = {res}{ralign 10:-1779.3659}{txt}{col 57}{lalign 13:Pseudo R2}{col 70} = {res}{ralign 6:0.1102}
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}    diabetes{col 14}{c |} Odds ratio{col 26}   Std. err.{col 38}      z{col 46}   P>|z|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}age {c |}{col 14}{res}{space 2} 1.060051{col 26}{space 2} .0040465{col 37}{space 1}   15.28{col 46}{space 3}0.000{col 54}{space 4}  1.05215{col 67}{space 3} 1.068012
+{txt}{space 12} {c |}
+{space 9}sex {c |}
+{space 5}Female  {c |}{col 14}{res}{space 2} 1.066188{col 26}{space 2} .1023098{col 37}{space 1}    0.67{col 46}{space 3}0.504{col 54}{space 4} .8833928{col 67}{space 3} 1.286809
+{txt}{space 12} {c |}
+{space 8}race {c |}
+{space 6}Black  {c |}{col 14}{res}{space 2} 1.860341{col 26}{space 2} .2397962{col 37}{space 1}    4.82{col 46}{space 3}0.000{col 54}{space 4} 1.445019{col 67}{space 3} 2.395034
+{txt}{space 6}Other  {c |}{col 14}{res}{space 2} 1.410226{col 26}{space 2} .4978389{col 37}{space 1}    0.97{col 46}{space 3}0.330{col 54}{space 4} .7059876{col 67}{space 3} 2.816959
+{txt}{space 12} {c |}
+{space 9}bmi {c |}{col 14}{res}{space 2} 1.072919{col 26}{space 2} .0089087{col 37}{space 1}    8.48{col 46}{space 3}0.000{col 54}{space 4} 1.055599{col 67}{space 3} 1.090523
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .0002825{col 26}{space 2} .0000921{col 37}{space 1}  -25.05{col 46}{space 3}0.000{col 54}{space 4}  .000149{col 67}{space 3} .0005354
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{p 0 6 2}Note: {bf:_cons} estimates baseline odds{txt}.{p_end}
+
+{com}. etable
+{res}
+{smcl}
+{reset}{...}
+{hline 22}{c -}{hline 8}
+{space 22} diabetes
+{hline 22}{c -}{hline 8}
+Age (years){space 11} {space 3}{result:1.060}
+{space 22} {space 1}{result:(0.004)}
+Sex{space 19} {space 8}
+  Female{space 14} {space 3}{result:1.066}
+{space 22} {space 1}{result:(0.102)}
+Race{space 18} {space 8}
+  Black{space 15} {space 3}{result:1.860}
+{space 22} {space 1}{result:(0.240)}
+  Other{space 15} {space 3}{result:1.410}
+{space 22} {space 1}{result:(0.498)}
+Body mass index (BMI){space 1} {space 3}{result:1.073}
+{space 22} {space 1}{result:(0.009)}
+Intercept{space 13} {space 3}{result:0.000}
+{space 22} {space 1}{result:(0.000)}
+Number of observations {space 3}{result:10349}
+{hline 22}{c -}{hline 8}
+
+{com}. 
+. // -replay-
+. etable, replay
+{res}
+{smcl}
+{reset}{...}
+{hline 22}{c -}{hline 8}
+{space 22} diabetes
+{hline 22}{c -}{hline 8}
+Age (years){space 11} {space 3}{result:1.060}
+{space 22} {space 1}{result:(0.004)}
+Sex{space 19} {space 8}
+  Female{space 14} {space 3}{result:1.066}
+{space 22} {space 1}{result:(0.102)}
+Race{space 18} {space 8}
+  Black{space 15} {space 3}{result:1.860}
+{space 22} {space 1}{result:(0.240)}
+  Other{space 15} {space 3}{result:1.410}
+{space 22} {space 1}{result:(0.498)}
+Body mass index (BMI){space 1} {space 3}{result:1.073}
+{space 22} {space 1}{result:(0.009)}
+Intercept{space 13} {space 3}{result:0.000}
+{space 22} {space 1}{result:(0.000)}
+Number of observations {space 3}{result:10349}
+{hline 22}{c -}{hline 8}
+
+{com}. 
+. // -keep-
+. etable, replay keep(age sex race bmi)
+{res}
+{smcl}
+{reset}{...}
+{hline 22}{c -}{hline 8}
+{space 22} diabetes
+{hline 22}{c -}{hline 8}
+Age (years){space 11} {space 3}{result:1.060}
+{space 22} {space 1}{result:(0.004)}
+Sex{space 19} {space 8}
+  Female{space 14} {space 3}{result:1.066}
+{space 22} {space 1}{result:(0.102)}
+Race{space 18} {space 8}
+  Black{space 15} {space 3}{result:1.860}
+{space 22} {space 1}{result:(0.240)}
+  Other{space 15} {space 3}{result:1.410}
+{space 22} {space 1}{result:(0.498)}
+Body mass index (BMI){space 1} {space 3}{result:1.073}
+{space 22} {space 1}{result:(0.009)}
+Number of observations {space 3}{result:10349}
+{hline 22}{c -}{hline 8}
+
+{com}. 
+. // -cstat()-
+. // ====================
+. etable, replay cstat(_r_b) cstat(_r_p)    
+{res}
+{smcl}
+{reset}{...}
+{hline 22}{c -}{hline 8}
+{space 22} diabetes
+{hline 22}{c -}{hline 8}
+Age (years){space 11} {space 3}{result:1.060}
+{space 22} {space 4}{result:0.00}
+Sex{space 19} {space 8}
+  Female{space 14} {space 3}{result:1.066}
+{space 22} {space 4}{result:0.50}
+Race{space 18} {space 8}
+  Black{space 15} {space 3}{result:1.860}
+{space 22} {space 4}{result:0.00}
+  Other{space 15} {space 3}{result:1.410}
+{space 22} {space 4}{result:0.33}
+Body mass index (BMI){space 1} {space 3}{result:1.073}
+{space 22} {space 4}{result:0.00}
+Number of observations {space 3}{result:10349}
+{hline 22}{c -}{hline 8}
+
+{com}. 
+. // -cstat(, format())-
+. etable, replay cstat(_r_b, nformat(%4.2f))  ///
+>                cstat(_r_p, nformat(%6.4f))  
+{res}
+{smcl}
+{reset}{...}
+{hline 22}{c -}{hline 8}
+{space 22} diabetes
+{hline 22}{c -}{hline 8}
+Age (years){space 11} {space 4}{result:1.06}
+{space 22} {space 2}{result:0.0000}
+Sex{space 19} {space 8}
+  Female{space 14} {space 4}{result:1.07}
+{space 22} {space 2}{result:0.5042}
+Race{space 18} {space 8}
+  Black{space 15} {space 4}{result:1.86}
+{space 22} {space 2}{result:0.0000}
+  Other{space 15} {space 4}{result:1.41}
+{space 22} {space 2}{result:0.3302}
+Body mass index (BMI){space 1} {space 4}{result:1.07}
+{space 22} {space 2}{result:0.0000}
+Number of observations {space 3}{result:10349}
+{hline 22}{c -}{hline 8}
+
+{com}. 
+.                 
+. // -cstat(_r_ci, cidelimiter())-
+. etable, replay cstat(_r_b, nformat(%4.2f))                  ///
+>                cstat(_r_ci, cidelimiter(,) nformat(%6.2f))              
+{res}
+{smcl}
+{reset}{...}
+{hline 22}{c -}{hline 13}
+{space 22} {space 3}diabetes{space 2}
+{hline 22}{c -}{hline 13}
+Age (years){space 11} {space 9}{result:1.06}
+{space 22} {result:[1.05,  1.07]}
+Sex{space 19} {space 13}
+  Female{space 14} {space 9}{result:1.07}
+{space 22} {result:[0.88,  1.29]}
+Race{space 18} {space 13}
+  Black{space 15} {space 9}{result:1.86}
+{space 22} {result:[1.45,  2.40]}
+  Other{space 15} {space 9}{result:1.41}
+{space 22} {result:[0.71,  2.82]}
+Body mass index (BMI){space 1} {space 9}{result:1.07}
+{space 22} {result:[1.06,  1.09]}
+Number of observations {space 8}{result:10349}
+{hline 22}{c -}{hline 13}
+
+{com}. 
+.                 
+. // -showstars-
+. etable, replay showstars showstarsnote
+{res}
+{smcl}
+{reset}{...}
+{hline 22}{c -}{hline 13}{c -}{hline 2}
+{space 22} {space 4}diabetes{space 4}
+{hline 22}{c -}{hline 13}{c -}{hline 2}
+Age (years){space 11} {space 9}{result:1.06} {result:**}
+{space 22} {result:[1.05,  1.07]} {space 2}
+Sex{space 19} {space 13} {space 2}
+  Female{space 14} {space 9}{result:1.07} {space 2}
+{space 22} {result:[0.88,  1.29]} {space 2}
+Race{space 18} {space 13} {space 2}
+  Black{space 15} {space 9}{result:1.86} {result:**}
+{space 22} {result:[1.45,  2.40]} {space 2}
+  Other{space 15} {space 9}{result:1.41} {space 2}
+{space 22} {result:[0.71,  2.82]} {space 2}
+Body mass index (BMI){space 1} {space 9}{result:1.07} {result:**}
+{space 22} {result:[1.06,  1.09]} {space 2}
+Number of observations {space 8}{result:10349} {space 2}
+{hline 22}{c -}{hline 13}{c -}{hline 2}
+{p}** p<.01, * p<.05{p_end}
+
+{com}.         
+. // -stars()-
+. etable, replay                                           ///
+>         showstars showstarsnote                          ///
+>         stars(.05 "*" .01 "**" .001 "***", attach(_r_b))
+{res}
+{smcl}
+{reset}{...}
+{hline 22}{c -}{hline 13}{c -}{hline 3}
+{space 22} {space 5}diabetes{space 4}
+{hline 22}{c -}{hline 13}{c -}{hline 3}
+Age (years){space 11} {space 9}{result:1.06} {result:***}
+{space 22} {result:[1.05,  1.07]} {space 3}
+Sex{space 19} {space 13} {space 3}
+  Female{space 14} {space 9}{result:1.07} {space 3}
+{space 22} {result:[0.88,  1.29]} {space 3}
+Race{space 18} {space 13} {space 3}
+  Black{space 15} {space 9}{result:1.86} {result:***}
+{space 22} {result:[1.45,  2.40]} {space 3}
+  Other{space 15} {space 9}{result:1.41} {space 3}
+{space 22} {result:[0.71,  2.82]} {space 3}
+Body mass index (BMI){space 1} {space 9}{result:1.07} {result:***}
+{space 22} {result:[1.06,  1.09]} {space 3}
+Number of observations {space 8}{result:10349} {space 3}
+{hline 22}{c -}{hline 13}{c -}{hline 3}
+{p}*** p<.001, ** p<.01, * p<.05{p_end}
+
+{com}.         
+.         
+. // -mstat(, format())-
+. etable, replay mstat(N) mstat(aic) mstat(bic)        
+{res}
+{smcl}
+{reset}{...}
+{hline 22}{c -}{hline 13}{c -}{hline 3}
+{space 22} {space 5}diabetes{space 4}
+{hline 22}{c -}{hline 13}{c -}{hline 3}
+Age (years){space 11} {space 9}{result:1.06} {result:***}
+{space 22} {result:[1.05,  1.07]} {space 3}
+Sex{space 19} {space 13} {space 3}
+  Female{space 14} {space 9}{result:1.07} {space 3}
+{space 22} {result:[0.88,  1.29]} {space 3}
+Race{space 18} {space 13} {space 3}
+  Black{space 15} {space 9}{result:1.86} {result:***}
+{space 22} {result:[1.45,  2.40]} {space 3}
+  Other{space 15} {space 9}{result:1.41} {space 3}
+{space 22} {result:[0.71,  2.82]} {space 3}
+Body mass index (BMI){space 1} {space 9}{result:1.07} {result:***}
+{space 22} {result:[1.06,  1.09]} {space 3}
+Number of observations {space 8}{result:10349} {space 3}
+AIC{space 19} {space 6}{result:3570.73} {space 3}
+BIC{space 19} {space 6}{result:3614.20} {space 3}
+{hline 22}{c -}{hline 13}{c -}{hline 3}
+{p}*** p<.001, ** p<.01, * p<.05{p_end}
+
+{com}.         
+.      
+. // -mstat(, format())-
+. quietly logistic diabetes age i.sex i.race bmi
+{txt}
+{com}. etable, keep(age sex race bmi)                            ///
+>         cstat(_r_b, nformat(%4.2f))                       ///
+>         cstat(_r_ci, cidelimiter(,) nformat(%6.2f))       ///
+>         showstars showstarsnote                           /// 
+>         stars(.05 "*" .01 "**" .001 "***", attach(_r_b))  ///
+>         mstat(N) mstat(aic) mstat(bic)                    ///
+>         mstat(pseudo_r2 = e(r2_p))
+{res}
+{smcl}
+{reset}{...}
+{hline 22}{c -}{hline 13}{c -}{hline 3}
+{space 22} {space 5}diabetes{space 4}
+{hline 22}{c -}{hline 13}{c -}{hline 3}
+Age (years){space 11} {space 9}{result:1.06} {result:***}
+{space 22} {result:[1.05,  1.07]} {space 3}
+Sex{space 19} {space 13} {space 3}
+  Female{space 14} {space 9}{result:1.07} {space 3}
+{space 22} {result:[0.88,  1.29]} {space 3}
+Race{space 18} {space 13} {space 3}
+  Black{space 15} {space 9}{result:1.86} {result:***}
+{space 22} {result:[1.45,  2.40]} {space 3}
+  Other{space 15} {space 9}{result:1.41} {space 3}
+{space 22} {result:[0.71,  2.82]} {space 3}
+Body mass index (BMI){space 1} {space 9}{result:1.07} {result:***}
+{space 22} {result:[1.06,  1.09]} {space 3}
+Number of observations {space 8}{result:10349} {space 3}
+AIC{space 19} {space 6}{result:3570.73} {space 3}
+BIC{space 19} {space 6}{result:3614.20} {space 3}
+pseudo_r2{space 13} {space 9}{result:0.11} {space 3}
+{hline 22}{c -}{hline 13}{c -}{hline 3}
+{p}*** p<.001, ** p<.01, * p<.05{p_end}
+
+{com}.         
+.  
+.  
+.  
+. // -mstat(, format())-
+. etable, replay  ///
+>         mstat(N,   nformat(%8.0fc) label("Observations"))             ///
+>         mstat(aic, nformat(%5.0f))                                    ///
+>         mstat(bic, nformat(%5.0f))                                    ///
+>         mstat(pseudo_r2 = e(r2_p), nformat(%5.4f) label("Pseudo R2")) 
+{res}
+{smcl}
+{reset}{...}
+{hline 21}{c -}{hline 13}{c -}{hline 3}
+{space 21} {space 5}diabetes{space 4}
+{hline 21}{c -}{hline 13}{c -}{hline 3}
+Age (years){space 10} {space 9}{result:1.06} {result:***}
+{space 21} {result:[1.05,  1.07]} {space 3}
+Sex{space 18} {space 13} {space 3}
+  Female{space 13} {space 9}{result:1.07} {space 3}
+{space 21} {result:[0.88,  1.29]} {space 3}
+Race{space 17} {space 13} {space 3}
+  Black{space 14} {space 9}{result:1.86} {result:***}
+{space 21} {result:[1.45,  2.40]} {space 3}
+  Other{space 14} {space 9}{result:1.41} {space 3}
+{space 21} {result:[0.71,  2.82]} {space 3}
+Body mass index (BMI) {space 9}{result:1.07} {result:***}
+{space 21} {result:[1.06,  1.09]} {space 3}
+Observations{space 9} {space 7}{result:10,349} {space 3}
+AIC{space 18} {space 9}{result:3571} {space 3}
+BIC{space 18} {space 9}{result:3614} {space 3}
+Pseudo R2{space 12} {space 7}{result:0.1102} {space 3}
+{hline 21}{c -}{hline 13}{c -}{hline 3}
+{p}*** p<.001, ** p<.01, * p<.05{p_end}
+
+{com}.  
+.  
+.        
+. // title
+. etable, replay ///
+>         title("Table 5: Logistic Regression Model For Diabetes")
+{res}
+{smcl}
+{reset}{...}
+{p}Table 5: Logistic Regression Model For Diabetes{p_end}
+{hline 21}{c -}{hline 13}{c -}{hline 3}
+{space 21} {space 5}diabetes{space 4}
+{hline 21}{c -}{hline 13}{c -}{hline 3}
+Age (years){space 10} {space 9}{result:1.06} {result:***}
+{space 21} {result:[1.05,  1.07]} {space 3}
+Sex{space 18} {space 13} {space 3}
+  Female{space 13} {space 9}{result:1.07} {space 3}
+{space 21} {result:[0.88,  1.29]} {space 3}
+Race{space 17} {space 13} {space 3}
+  Black{space 14} {space 9}{result:1.86} {result:***}
+{space 21} {result:[1.45,  2.40]} {space 3}
+  Other{space 14} {space 9}{result:1.41} {space 3}
+{space 21} {result:[0.71,  2.82]} {space 3}
+Body mass index (BMI) {space 9}{result:1.07} {result:***}
+{space 21} {result:[1.06,  1.09]} {space 3}
+Observations{space 9} {space 7}{result:10,349} {space 3}
+AIC{space 18} {space 9}{result:3571} {space 3}
+BIC{space 18} {space 9}{result:3614} {space 3}
+Pseudo R2{space 12} {space 7}{result:0.1102} {space 3}
+{hline 21}{c -}{hline 13}{c -}{hline 3}
+{p}*** p<.001, ** p<.01, * p<.05{p_end}
+
+{com}.         
+.  
+. // titlestyles
+. etable, replay ///
+>         title("Table 5: Logistic Regression Model For Diabetes")      ///
+>         titlestyles(font(Lucida Console, size(14) bold)) 
+{res}
+{smcl}
+{reset}{...}
+{p}{bf:Table 5: Logistic Regression Model For Diabetes}{p_end}
+{hline 21}{c -}{hline 13}{c -}{hline 3}
+{space 21} {space 5}diabetes{space 4}
+{hline 21}{c -}{hline 13}{c -}{hline 3}
+Age (years){space 10} {space 9}{result:1.06} {result:***}
+{space 21} {result:[1.05,  1.07]} {space 3}
+Sex{space 18} {space 13} {space 3}
+  Female{space 13} {space 9}{result:1.07} {space 3}
+{space 21} {result:[0.88,  1.29]} {space 3}
+Race{space 17} {space 13} {space 3}
+  Black{space 14} {space 9}{result:1.86} {result:***}
+{space 21} {result:[1.45,  2.40]} {space 3}
+  Other{space 14} {space 9}{result:1.41} {space 3}
+{space 21} {result:[0.71,  2.82]} {space 3}
+Body mass index (BMI) {space 9}{result:1.07} {result:***}
+{space 21} {result:[1.06,  1.09]} {space 3}
+Observations{space 9} {space 7}{result:10,349} {space 3}
+AIC{space 18} {space 9}{result:3571} {space 3}
+BIC{space 18} {space 9}{result:3614} {space 3}
+Pseudo R2{space 12} {space 7}{result:0.1102} {space 3}
+{hline 21}{c -}{hline 13}{c -}{hline 3}
+{p}*** p<.001, ** p<.01, * p<.05{p_end}
+
+{com}.  
+. // note
+. etable, replay  ///
+>         note("Data Source: NHANES, 1981")
+{res}
+{smcl}
+{reset}{...}
+{p}{bf:Table 5: Logistic Regression Model For Diabetes}{p_end}
+{hline 21}{c -}{hline 13}{c -}{hline 3}
+{space 21} {space 5}diabetes{space 4}
+{hline 21}{c -}{hline 13}{c -}{hline 3}
+Age (years){space 10} {space 9}{result:1.06} {result:***}
+{space 21} {result:[1.05,  1.07]} {space 3}
+Sex{space 18} {space 13} {space 3}
+  Female{space 13} {space 9}{result:1.07} {space 3}
+{space 21} {result:[0.88,  1.29]} {space 3}
+Race{space 17} {space 13} {space 3}
+  Black{space 14} {space 9}{result:1.86} {result:***}
+{space 21} {result:[1.45,  2.40]} {space 3}
+  Other{space 14} {space 9}{result:1.41} {space 3}
+{space 21} {result:[0.71,  2.82]} {space 3}
+Body mass index (BMI) {space 9}{result:1.07} {result:***}
+{space 21} {result:[1.06,  1.09]} {space 3}
+Observations{space 9} {space 7}{result:10,349} {space 3}
+AIC{space 18} {space 9}{result:3571} {space 3}
+BIC{space 18} {space 9}{result:3614} {space 3}
+Pseudo R2{space 12} {space 7}{result:0.1102} {space 3}
+{hline 21}{c -}{hline 13}{c -}{hline 3}
+{p}*** p<.001, ** p<.01, * p<.05{p_end}
+{p}Data Source: NHANES, 1981{p_end}
+
+{com}.  
+. // notestyle
+. etable, replay                                             ///
+>         notestyles(font(Lucida Console, size(10) italic))
+{res}
+{smcl}
+{reset}{...}
+{p}{bf:Table 5: Logistic Regression Model For Diabetes}{p_end}
+{hline 21}{c -}{hline 13}{c -}{hline 3}
+{space 21} {space 5}diabetes{space 4}
+{hline 21}{c -}{hline 13}{c -}{hline 3}
+Age (years){space 10} {space 9}{result:1.06} {result:***}
+{space 21} {result:[1.05,  1.07]} {space 3}
+Sex{space 18} {space 13} {space 3}
+  Female{space 13} {space 9}{result:1.07} {space 3}
+{space 21} {result:[0.88,  1.29]} {space 3}
+Race{space 17} {space 13} {space 3}
+  Black{space 14} {space 9}{result:1.86} {result:***}
+{space 21} {result:[1.45,  2.40]} {space 3}
+  Other{space 14} {space 9}{result:1.41} {space 3}
+{space 21} {result:[0.71,  2.82]} {space 3}
+Body mass index (BMI) {space 9}{result:1.07} {result:***}
+{space 21} {result:[1.06,  1.09]} {space 3}
+Observations{space 9} {space 7}{result:10,349} {space 3}
+AIC{space 18} {space 9}{result:3571} {space 3}
+BIC{space 18} {space 9}{result:3614} {space 3}
+Pseudo R2{space 12} {space 7}{result:0.1102} {space 3}
+{hline 21}{c -}{hline 13}{c -}{hline 3}
+{p}{it:*** p<.001, ** p<.01, * p<.05}{p_end}
+{p}{it:Data Source: NHANES, 1981}{p_end}
+
+{com}.  
+. // column
+. etable, replay column(dvlabel)
+{res}
+{smcl}
+{reset}{...}
+{p}{bf:Table 5: Logistic Regression Model For Diabetes}{p_end}
+{hline 21}{c -}{hline 13}{c -}{hline 3}
+{space 21} {space 1}Diabetes status{space 1}
+{hline 21}{c -}{hline 13}{c -}{hline 3}
+Age (years){space 10} {space 9}{result:1.06} {result:***}
+{space 21} {result:[1.05,  1.07]} {space 3}
+Sex{space 18} {space 13} {space 3}
+  Female{space 13} {space 9}{result:1.07} {space 3}
+{space 21} {result:[0.88,  1.29]} {space 3}
+Race{space 17} {space 13} {space 3}
+  Black{space 14} {space 9}{result:1.86} {result:***}
+{space 21} {result:[1.45,  2.40]} {space 3}
+  Other{space 14} {space 9}{result:1.41} {space 3}
+{space 21} {result:[0.71,  2.82]} {space 3}
+Body mass index (BMI) {space 9}{result:1.07} {result:***}
+{space 21} {result:[1.06,  1.09]} {space 3}
+Observations{space 9} {space 7}{result:10,349} {space 3}
+AIC{space 18} {space 9}{result:3571} {space 3}
+BIC{space 18} {space 9}{result:3614} {space 3}
+Pseudo R2{space 12} {space 7}{result:0.1102} {space 3}
+{hline 21}{c -}{hline 13}{c -}{hline 3}
+{p}{it:*** p<.001, ** p<.01, * p<.05}{p_end}
+{p}{it:Data Source: NHANES, 1981}{p_end}
+
+{com}.  
+.  
+. // export
+. etable, replay                          /// 
+>         export(Diabetes.docx, replace)  
+{res}
+{smcl}
+{reset}{...}
+{p}{bf:Table 5: Logistic Regression Model For Diabetes}{p_end}
+{hline 21}{c -}{hline 13}{c -}{hline 3}
+{space 21} {space 1}Diabetes status{space 1}
+{hline 21}{c -}{hline 13}{c -}{hline 3}
+Age (years){space 10} {space 9}{result:1.06} {result:***}
+{space 21} {result:[1.05,  1.07]} {space 3}
+Sex{space 18} {space 13} {space 3}
+  Female{space 13} {space 9}{result:1.07} {space 3}
+{space 21} {result:[0.88,  1.29]} {space 3}
+Race{space 17} {space 13} {space 3}
+  Black{space 14} {space 9}{result:1.86} {result:***}
+{space 21} {result:[1.45,  2.40]} {space 3}
+  Other{space 14} {space 9}{result:1.41} {space 3}
+{space 21} {result:[0.71,  2.82]} {space 3}
+Body mass index (BMI) {space 9}{result:1.07} {result:***}
+{space 21} {result:[1.06,  1.09]} {space 3}
+Observations{space 9} {space 7}{result:10,349} {space 3}
+AIC{space 18} {space 9}{result:3571} {space 3}
+BIC{space 18} {space 9}{result:3614} {space 3}
+Pseudo R2{space 12} {space 7}{result:0.1102} {space 3}
+{hline 21}{c -}{hline 13}{c -}{hline 3}
+{p}{it:*** p<.001, ** p<.01, * p<.05}{p_end}
+{p}{it:Data Source: NHANES, 1981}{p_end}
+{res}{txt}{p 0 1 2}
+(collection {res:ETable} exported to file {browse "C:/Users/DELL/Documents/Data/Stata/Stata Training Material General/StataTraining/32_Etables/examples/Diabetes.docx":Diabetes.docx})
+{p_end}
+
+{com}.  
+.  
+.   
+.   
+. // Full command
+. // ======================================================================
+. 
+. quietly logistic diabetes age i.sex i.race bmi
+{txt}
+{com}. 
+. etable, keep(age sex race bmi) column(dvlabel)                        ///
+>         cstat(_r_b, nformat(%4.2f))                                   ///
+>         cstat(_r_ci, cidelimiter(,) nformat(%6.2f))                   ///
+>         showstars showstarsnote                                       /// 
+>         stars(.05 "*" .01 "**" .001 "***", attach(_r_b))              ///
+>         mstat(N,   nformat(%8.0fc) label("Observations"))             ///
+>         mstat(aic, nformat(%5.0f))                                    ///
+>         mstat(bic, nformat(%5.0f))                                    ///
+>         mstat(pseudo_r2 = e(r2_p), nformat(%5.4f) label("Pseudo R2")) ///
+>         title("Table 5: Logistic Regression Model For Diabetes")      ///
+>         titlestyles(font(Lucida Console, size(14) bold))              ///
+>         note("Data Source: NHANES, 1981")                             ///
+>         notestyles(font(Lucida Console, size(10) italic))             ///  
+>         export(Diabetes.docx, replace) 
+{res}
+{smcl}
+{reset}{...}
+{p}{bf:Table 5: Logistic Regression Model For Diabetes}{p_end}
+{hline 21}{c -}{hline 13}{c -}{hline 3}
+{space 21} {space 1}Diabetes status{space 1}
+{hline 21}{c -}{hline 13}{c -}{hline 3}
+Age (years){space 10} {space 9}{result:1.06} {result:***}
+{space 21} {result:[1.05,  1.07]} {space 3}
+Sex{space 18} {space 13} {space 3}
+  Female{space 13} {space 9}{result:1.07} {space 3}
+{space 21} {result:[0.88,  1.29]} {space 3}
+Race{space 17} {space 13} {space 3}
+  Black{space 14} {space 9}{result:1.86} {result:***}
+{space 21} {result:[1.45,  2.40]} {space 3}
+  Other{space 14} {space 9}{result:1.41} {space 3}
+{space 21} {result:[0.71,  2.82]} {space 3}
+Body mass index (BMI) {space 9}{result:1.07} {result:***}
+{space 21} {result:[1.06,  1.09]} {space 3}
+Observations{space 9} {space 7}{result:10,349} {space 3}
+AIC{space 18} {space 9}{result:3571} {space 3}
+BIC{space 18} {space 9}{result:3614} {space 3}
+Pseudo R2{space 12} {space 7}{result:0.1102} {space 3}
+{hline 21}{c -}{hline 13}{c -}{hline 3}
+{p}{it:*** p<.001, ** p<.01, * p<.05}{p_end}
+{p}{it:Data Source: NHANES, 1981}{p_end}
+{res}{txt}{p 0 1 2}
+(collection {res:ETable} exported to file {browse "C:/Users/DELL/Documents/Data/Stata/Stata Training Material General/StataTraining/32_Etables/examples/Diabetes.docx":Diabetes.docx})
+{p_end}
+
+{com}.   
+.   
+.   
+. quietly logistic diabetes age i.sex i.race bmi 
+{txt}
+{com}. ereturn list 
+
+{txt}scalars:
+               e(rank) =  {res}6
+                  {txt}e(N) =  {res}10349
+                 {txt}e(ic) =  {res}5
+                  {txt}e(k) =  {res}8
+               {txt}e(k_eq) =  {res}1
+               {txt}e(k_dv) =  {res}1
+          {txt}e(converged) =  {res}1
+                 {txt}e(rc) =  {res}0
+                 {txt}e(ll) =  {res}-1779.36586564091
+         {txt}e(k_eq_model) =  {res}1
+               {txt}e(ll_0) =  {res}-1999.759149673489
+               {txt}e(df_m) =  {res}5
+               {txt}e(chi2) =  {res}440.7865680651585
+                  {txt}e(p) =  {res}4.77009114766e-93
+              {txt}e(N_cdf) =  {res}0
+              {txt}e(N_cds) =  {res}0
+               {txt}e(r2_p) =  {res}.110209914063183
+
+{txt}macros:
+            e(cmdline) : "{res}logistic diabetes age i.sex i.race bmi{txt}"
+                e(cmd) : "{res}logistic{txt}"
+            e(predict) : "{res}logistic_p{txt}"
+          e(estat_cmd) : "{res}logit_estat{txt}"
+          e(marginsok) : "{res}default Pr{txt}"
+       e(marginsnotok) : "{res}stdp DBeta DEviance DX2 DDeviance Hat Number Residuals RStandard SCore{txt}"
+              e(title) : "{res}Logistic regression{txt}"
+           e(chi2type) : "{res}LR{txt}"
+                e(opt) : "{res}moptimize{txt}"
+                e(vce) : "{res}oim{txt}"
+               e(user) : "{res}mopt__logit_d2(){txt}"
+          e(ml_method) : "{res}d2{txt}"
+          e(technique) : "{res}nr{txt}"
+              e(which) : "{res}max{txt}"
+             e(depvar) : "{res}diabetes{txt}"
+         e(properties) : "{res}b V{txt}"
+
+matrices:
+                  e(b) : {res} 1 x 8
+                  {txt}e(V) : {res} 8 x 8
+                {txt}e(Cns) : {res} 2 x 9
+                {txt}e(mns) : {res} 1 x 8
+              {txt}e(rules) : {res} 1 x 4
+               {txt}e(ilog) : {res} 1 x 20
+           {txt}e(gradient) : {res} 1 x 8
+
+{txt}functions:
+             e(sample)   
+
+{com}.   
+.   
+.   
+.   
+. // Multilevel Models
+. // =============================================================================
+. mixed bmi age i.sex || strata:, nolog
+{res}
+{txt}Mixed-effects ML regression{col 49}Number of obs{col 67}={col 69}{res}    10,351
+{txt}Group variable: {res}strata{col 49}{txt}Number of groups{col 67}={col 69}{res}        31
+{txt}{col 49}Obs per group:
+{col 63}min{col 67}={col 69}{res}       185
+{txt}{col 63}avg{col 67}={col 69}{res}     333.9
+{txt}{col 63}max{col 67}={col 69}{res}       503
+{col 49}{txt}Wald chi2({res}2{txt}){col 67}={col 70}{res}   305.26
+{txt}Log likelihood = {res}-31011.502{col 49}{txt}Prob > chi2{col 67}={col 73}{res}0.0000
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}         bmi{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      z{col 46}   P>|z|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}age {c |}{col 14}{res}{space 2} .0484808{col 26}{space 2} .0027762{col 37}{space 1}   17.46{col 46}{space 3}0.000{col 54}{space 4} .0430396{col 67}{space 3}  .053922
+{txt}{space 12} {c |}
+{space 9}sex {c |}
+{space 5}Female  {c |}{col 14}{res}{space 2} .0378599{col 26}{space 2}  .095233{col 37}{space 1}    0.40{col 46}{space 3}0.691{col 54}{space 4}-.1487934{col 67}{space 3} .2245131
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 23.20024{col 26}{space 2} .1549065{col 37}{space 1}  149.77{col 46}{space 3}0.000{col 54}{space 4} 22.89663{col 67}{space 3} 23.50385
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{hline 29}{c TT}{hline 48}
+{col 3}Random-effects parameters{col 30}{c |}{col 34}Estimate{col 45}Std. err.{col 59}[95% conf. interval]
+{hline 29}{c +}{hline 48}
+{res}strata{txt}: Identity{col 30}{c |}
+{space 18}var(_cons) {c |}{res}{col 33} .0587611{col 44} .0346155{col 58} .0185207{col 70} .1864331
+{txt}{hline 29}{c +}{hline 48}
+{col 16}var(Residual){col 30}{c |}{res}{col 33} 23.38973{col 44} .3256554{col 58} 22.76009{col 70} 24.03679
+{txt}{hline 29}{c BT}{hline 48}
+LR test vs. linear model:{col 27}{help j_chibar##|_new:chibar2(01) =} {res}6.31{col 55}{txt}Prob >= chibar2 = {col 73}{res}0.0060
+{txt}
+{com}. estat sd, var post
+{res}{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      z{col 46}   P>|z|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}bmi          {txt}{c |}
+{space 9}age {c |}{col 14}{res}{space 2} .0484808{col 26}{space 2} .0027762{col 37}{space 1}   17.46{col 46}{space 3}0.000{col 54}{space 4} .0430396{col 67}{space 3}  .053922
+{txt}{space 12} {c |}
+{space 9}sex {c |}
+{space 7}Male  {c |}{col 14}{res}{space 2}        0{col 26}{txt}  (empty)
+{space 5}Female  {c |}{col 14}{res}{space 2} .0378599{col 26}{space 2}  .095233{col 37}{space 1}    0.40{col 46}{space 3}0.691{col 54}{space 4}-.1487934{col 67}{space 3} .2245131
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2} 23.20024{col 26}{space 2} .1549065{col 37}{space 1}  149.77{col 46}{space 3}0.000{col 54}{space 4} 22.89663{col 67}{space 3} 23.50385
+{txt}{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}strata       {txt}{c |}
+{space 3}var(_cons){c |}{col 14}{res}{space 2} .0587611{col 26}{space 2} .0346155{col 54}{space 4} .0185207{col 67}{space 3} .1864331
+{txt}{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}Residual     {txt}{c |}
+{space 7}var(e){c |}{col 14}{res}{space 2} 23.38973{col 26}{space 2} .3256554{col 54}{space 4} 22.76009{col 67}{space 3} 24.03679
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. etable
+{res}
+{smcl}
+{reset}{...}
+{hline 11}{c -}{hline 7}
+{space 11} {space 3}1{space 3}
+{hline 11}{c -}{hline 7}
+Age (years) {space 2}{result:0.048}
+{space 11} {result:(0.003)}
+Sex{space 8} {space 7}
+  Female{space 3} {space 2}{result:0.038}
+{space 11} {result:(0.095)}
+Intercept{space 2} {space 1}{result:23.200}
+{space 11} {result:(0.155)}
+var(_cons){space 1} {space 2}{result:0.059}
+{space 11} {result:(0.035)}
+var(e){space 5} {space 1}{result:23.390}
+{space 11} {result:(0.326)}
+{hline 11}{c -}{hline 7}
+
+{com}.    
+.  
+. 
+.   
+.   
+.   
+. // =============================================================================  
+. //                        TABLES FOR MULTIPLE MODELS
+. // =============================================================================  
+.   
+. 
+. // append 
+. // ================================================
+. quietly logistic diabetes age i.sex i.race bmi
+{txt}
+{com}. etable
+{res}
+{smcl}
+{reset}{...}
+{hline 22}{c -}{hline 8}
+{space 22} diabetes
+{hline 22}{c -}{hline 8}
+Age (years){space 11} {space 3}{result:1.060}
+{space 22} {space 1}{result:(0.004)}
+Sex{space 19} {space 8}
+  Female{space 14} {space 3}{result:1.066}
+{space 22} {space 1}{result:(0.102)}
+Race{space 18} {space 8}
+  Black{space 15} {space 3}{result:1.860}
+{space 22} {space 1}{result:(0.240)}
+  Other{space 15} {space 3}{result:1.410}
+{space 22} {space 1}{result:(0.498)}
+Body mass index (BMI){space 1} {space 3}{result:1.073}
+{space 22} {space 1}{result:(0.009)}
+Intercept{space 13} {space 3}{result:0.000}
+{space 22} {space 1}{result:(0.000)}
+Number of observations {space 3}{result:10349}
+{hline 22}{c -}{hline 8}
+
+{com}. 
+. quietly logistic diabetes age
+{txt}
+{com}. etable, append
+{res}
+{smcl}
+{reset}{...}
+{hline 22}{c -}{hline 8}{c -}{hline 8}
+{space 22} diabetes diabetes
+{hline 22}{c -}{hline 8}{c -}{hline 8}
+Age (years){space 11} {space 3}{result:1.060} {space 3}{result:1.061}
+{space 22} {space 1}{result:(0.004)} {space 1}{result:(0.004)}
+Sex{space 19} {space 8} {space 8}
+  Female{space 14} {space 3}{result:1.066} {space 8}
+{space 22} {space 1}{result:(0.102)} {space 8}
+Race{space 18} {space 8} {space 8}
+  Black{space 15} {space 3}{result:1.860} {space 8}
+{space 22} {space 1}{result:(0.240)} {space 8}
+  Other{space 15} {space 3}{result:1.410} {space 8}
+{space 22} {space 1}{result:(0.498)} {space 8}
+Body mass index (BMI){space 1} {space 3}{result:1.073} {space 8}
+{space 22} {space 1}{result:(0.009)} {space 8}
+Intercept{space 13} {space 3}{result:0.000} {space 3}{result:0.002}
+{space 22} {space 1}{result:(0.000)} {space 1}{result:(0.000)}
+Number of observations {space 3}{result:10349} {space 3}{result:10349}
+{hline 22}{c -}{hline 8}{c -}{hline 8}
+
+{com}. 
+. quietly logistic diabetes i.sex
+{txt}
+{com}. etable, append
+{res}
+{smcl}
+{reset}{...}
+{hline 22}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}
+{space 22} diabetes diabetes diabetes
+{hline 22}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}
+Age (years){space 11} {space 3}{result:1.060} {space 3}{result:1.061} {space 8}
+{space 22} {space 1}{result:(0.004)} {space 1}{result:(0.004)} {space 8}
+Sex{space 19} {space 8} {space 8} {space 8}
+  Female{space 14} {space 3}{result:1.066} {space 8} {space 3}{result:1.185}
+{space 22} {space 1}{result:(0.102)} {space 8} {space 1}{result:(0.110)}
+Race{space 18} {space 8} {space 8} {space 8}
+  Black{space 15} {space 3}{result:1.860} {space 8} {space 8}
+{space 22} {space 1}{result:(0.240)} {space 8} {space 8}
+  Other{space 15} {space 3}{result:1.410} {space 8} {space 8}
+{space 22} {space 1}{result:(0.498)} {space 8} {space 8}
+Body mass index (BMI){space 1} {space 3}{result:1.073} {space 8} {space 8}
+{space 22} {space 1}{result:(0.009)} {space 8} {space 8}
+Intercept{space 13} {space 3}{result:0.000} {space 3}{result:0.002} {space 3}{result:0.046}
+{space 22} {space 1}{result:(0.000)} {space 1}{result:(0.000)} {space 1}{result:(0.003)}
+Number of observations {space 3}{result:10349} {space 3}{result:10349} {space 3}{result:10349}
+{hline 22}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}
+
+{com}.   
+. quietly logistic diabetes i.race
+{txt}
+{com}. etable, append
+{res}
+{smcl}
+{reset}{...}
+{hline 22}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}
+{space 22} diabetes diabetes diabetes diabetes
+{hline 22}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}
+Age (years){space 11} {space 3}{result:1.060} {space 3}{result:1.061} {space 8} {space 8}
+{space 22} {space 1}{result:(0.004)} {space 1}{result:(0.004)} {space 8} {space 8}
+Sex{space 19} {space 8} {space 8} {space 8} {space 8}
+  Female{space 14} {space 3}{result:1.066} {space 8} {space 3}{result:1.185} {space 8}
+{space 22} {space 1}{result:(0.102)} {space 8} {space 1}{result:(0.110)} {space 8}
+Race{space 18} {space 8} {space 8} {space 8} {space 8}
+  Black{space 15} {space 3}{result:1.860} {space 8} {space 8} {space 3}{result:1.843}
+{space 22} {space 1}{result:(0.240)} {space 8} {space 8} {space 1}{result:(0.227)}
+  Other{space 15} {space 3}{result:1.410} {space 8} {space 8} {space 3}{result:1.010}
+{space 22} {space 1}{result:(0.498)} {space 8} {space 8} {space 1}{result:(0.348)}
+Body mass index (BMI){space 1} {space 3}{result:1.073} {space 8} {space 8} {space 8}
+{space 22} {space 1}{result:(0.009)} {space 8} {space 8} {space 8}
+Intercept{space 13} {space 3}{result:0.000} {space 3}{result:0.002} {space 3}{result:0.046} {space 3}{result:0.047}
+{space 22} {space 1}{result:(0.000)} {space 1}{result:(0.000)} {space 1}{result:(0.003)} {space 1}{result:(0.002)}
+Number of observations {space 3}{result:10349} {space 3}{result:10349} {space 3}{result:10349} {space 3}{result:10349}
+{hline 22}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}
+
+{com}. 
+. quietly logistic diabetes bmi
+{txt}
+{com}. etable, append
+{res}
+{smcl}
+{reset}{...}
+{hline 22}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}
+{space 22} diabetes diabetes diabetes diabetes diabetes
+{hline 22}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}
+Age (years){space 11} {space 3}{result:1.060} {space 3}{result:1.061} {space 8} {space 8} {space 8}
+{space 22} {space 1}{result:(0.004)} {space 1}{result:(0.004)} {space 8} {space 8} {space 8}
+Sex{space 19} {space 8} {space 8} {space 8} {space 8} {space 8}
+  Female{space 14} {space 3}{result:1.066} {space 8} {space 3}{result:1.185} {space 8} {space 8}
+{space 22} {space 1}{result:(0.102)} {space 8} {space 1}{result:(0.110)} {space 8} {space 8}
+Race{space 18} {space 8} {space 8} {space 8} {space 8} {space 8}
+  Black{space 15} {space 3}{result:1.860} {space 8} {space 8} {space 3}{result:1.843} {space 8}
+{space 22} {space 1}{result:(0.240)} {space 8} {space 8} {space 1}{result:(0.227)} {space 8}
+  Other{space 15} {space 3}{result:1.410} {space 8} {space 8} {space 3}{result:1.010} {space 8}
+{space 22} {space 1}{result:(0.498)} {space 8} {space 8} {space 1}{result:(0.348)} {space 8}
+Body mass index (BMI){space 1} {space 3}{result:1.073} {space 8} {space 8} {space 8} {space 3}{result:1.089}
+{space 22} {space 1}{result:(0.009)} {space 8} {space 8} {space 8} {space 1}{result:(0.008)}
+Intercept{space 13} {space 3}{result:0.000} {space 3}{result:0.002} {space 3}{result:0.046} {space 3}{result:0.047} {space 3}{result:0.005}
+{space 22} {space 1}{result:(0.000)} {space 1}{result:(0.000)} {space 1}{result:(0.003)} {space 1}{result:(0.002)} {space 1}{result:(0.001)}
+Number of observations {space 3}{result:10349} {space 3}{result:10349} {space 3}{result:10349} {space 3}{result:10349} {space 3}{result:10349}
+{hline 22}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}
+
+{com}. 
+. etable, replay column(index)
+{res}
+{smcl}
+{reset}{...}
+{hline 22}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}
+{space 22} {space 3}1{space 3} {space 3}2{space 3} {space 3}3{space 3} {space 3}4{space 3} {space 3}5{space 3}
+{hline 22}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}
+Age (years){space 11} {space 2}{result:1.060} {space 2}{result:1.061} {space 7} {space 7} {space 7}
+{space 22} {result:(0.004)} {result:(0.004)} {space 7} {space 7} {space 7}
+Sex{space 19} {space 7} {space 7} {space 7} {space 7} {space 7}
+  Female{space 14} {space 2}{result:1.066} {space 7} {space 2}{result:1.185} {space 7} {space 7}
+{space 22} {result:(0.102)} {space 7} {result:(0.110)} {space 7} {space 7}
+Race{space 18} {space 7} {space 7} {space 7} {space 7} {space 7}
+  Black{space 15} {space 2}{result:1.860} {space 7} {space 7} {space 2}{result:1.843} {space 7}
+{space 22} {result:(0.240)} {space 7} {space 7} {result:(0.227)} {space 7}
+  Other{space 15} {space 2}{result:1.410} {space 7} {space 7} {space 2}{result:1.010} {space 7}
+{space 22} {result:(0.498)} {space 7} {space 7} {result:(0.348)} {space 7}
+Body mass index (BMI){space 1} {space 2}{result:1.073} {space 7} {space 7} {space 7} {space 2}{result:1.089}
+{space 22} {result:(0.009)} {space 7} {space 7} {space 7} {result:(0.008)}
+Intercept{space 13} {space 2}{result:0.000} {space 2}{result:0.002} {space 2}{result:0.046} {space 2}{result:0.047} {space 2}{result:0.005}
+{space 22} {result:(0.000)} {result:(0.000)} {result:(0.003)} {result:(0.002)} {result:(0.001)}
+Number of observations {space 2}{result:10349} {space 2}{result:10349} {space 2}{result:10349} {space 2}{result:10349} {space 2}{result:10349}
+{hline 22}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}
+
+{com}. 
+. etable, replay column(index)   ///
+>         title("Table 5: Logistic Regression Models for Diabetes")
+{res}
+{smcl}
+{reset}{...}
+{p}Table 5: Logistic Regression Models for Diabetes{p_end}
+{hline 22}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}
+{space 22} {space 3}1{space 3} {space 3}2{space 3} {space 3}3{space 3} {space 3}4{space 3} {space 3}5{space 3}
+{hline 22}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}
+Age (years){space 11} {space 2}{result:1.060} {space 2}{result:1.061} {space 7} {space 7} {space 7}
+{space 22} {result:(0.004)} {result:(0.004)} {space 7} {space 7} {space 7}
+Sex{space 19} {space 7} {space 7} {space 7} {space 7} {space 7}
+  Female{space 14} {space 2}{result:1.066} {space 7} {space 2}{result:1.185} {space 7} {space 7}
+{space 22} {result:(0.102)} {space 7} {result:(0.110)} {space 7} {space 7}
+Race{space 18} {space 7} {space 7} {space 7} {space 7} {space 7}
+  Black{space 15} {space 2}{result:1.860} {space 7} {space 7} {space 2}{result:1.843} {space 7}
+{space 22} {result:(0.240)} {space 7} {space 7} {result:(0.227)} {space 7}
+  Other{space 15} {space 2}{result:1.410} {space 7} {space 7} {space 2}{result:1.010} {space 7}
+{space 22} {result:(0.498)} {space 7} {space 7} {result:(0.348)} {space 7}
+Body mass index (BMI){space 1} {space 2}{result:1.073} {space 7} {space 7} {space 7} {space 2}{result:1.089}
+{space 22} {result:(0.009)} {space 7} {space 7} {space 7} {result:(0.008)}
+Intercept{space 13} {space 2}{result:0.000} {space 2}{result:0.002} {space 2}{result:0.046} {space 2}{result:0.047} {space 2}{result:0.005}
+{space 22} {result:(0.000)} {result:(0.000)} {result:(0.003)} {result:(0.002)} {result:(0.001)}
+Number of observations {space 2}{result:10349} {space 2}{result:10349} {space 2}{result:10349} {space 2}{result:10349} {space 2}{result:10349}
+{hline 22}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}
+
+{com}. 
+. 
+.         
+.         
+. quietly logistic diabetes age i.sex i.race bmi
+{txt}
+{com}. etable, mstat(N,   nformat(%8.0fc) label("Observations"))             ///
+>         mstat(aic, nformat(%5.0f))                                    ///
+>         mstat(bic, nformat(%5.0f))                                    ///
+>         mstat(pseudo_r2 = e(r2_p), nformat(%5.4f) label("Pseudo R2"))
+{res}
+{smcl}
+{reset}{...}
+{hline 21}{c -}{hline 8}
+{space 21} diabetes
+{hline 21}{c -}{hline 8}
+Age (years){space 10} {space 3}{result:1.060}
+{space 21} {space 1}{result:(0.004)}
+Sex{space 18} {space 8}
+  Female{space 13} {space 3}{result:1.066}
+{space 21} {space 1}{result:(0.102)}
+Race{space 17} {space 8}
+  Black{space 14} {space 3}{result:1.860}
+{space 21} {space 1}{result:(0.240)}
+  Other{space 14} {space 3}{result:1.410}
+{space 21} {space 1}{result:(0.498)}
+Body mass index (BMI) {space 3}{result:1.073}
+{space 21} {space 1}{result:(0.009)}
+Intercept{space 12} {space 3}{result:0.000}
+{space 21} {space 1}{result:(0.000)}
+Observations{space 9} {space 2}{result:10,349}
+AIC{space 18} {space 4}{result:3571}
+BIC{space 18} {space 4}{result:3614}
+Pseudo R2{space 12} {space 2}{result:0.1102}
+{hline 21}{c -}{hline 8}
+
+{com}. 
+. quietly logistic diabetes age
+{txt}
+{com}. etable, append                                                        ///
+>         mstat(N,   nformat(%8.0fc) label("Observations"))             ///
+>         mstat(aic, nformat(%5.0f))                                    ///
+>         mstat(bic, nformat(%5.0f))                                    ///
+>         mstat(pseudo_r2 = e(r2_p), nformat(%5.4f) label("Pseudo R2"))
+{res}
+{smcl}
+{reset}{...}
+{hline 21}{c -}{hline 8}{c -}{hline 8}
+{space 21} diabetes diabetes
+{hline 21}{c -}{hline 8}{c -}{hline 8}
+Age (years){space 10} {space 3}{result:1.060} {space 3}{result:1.061}
+{space 21} {space 1}{result:(0.004)} {space 1}{result:(0.004)}
+Sex{space 18} {space 8} {space 8}
+  Female{space 13} {space 3}{result:1.066} {space 8}
+{space 21} {space 1}{result:(0.102)} {space 8}
+Race{space 17} {space 8} {space 8}
+  Black{space 14} {space 3}{result:1.860} {space 8}
+{space 21} {space 1}{result:(0.240)} {space 8}
+  Other{space 14} {space 3}{result:1.410} {space 8}
+{space 21} {space 1}{result:(0.498)} {space 8}
+Body mass index (BMI) {space 3}{result:1.073} {space 8}
+{space 21} {space 1}{result:(0.009)} {space 8}
+Intercept{space 12} {space 3}{result:0.000} {space 3}{result:0.002}
+{space 21} {space 1}{result:(0.000)} {space 1}{result:(0.000)}
+Observations{space 9} {space 2}{result:10,349} {space 2}{result:10,349}
+AIC{space 18} {space 4}{result:3571} {space 4}{result:3661}
+BIC{space 18} {space 4}{result:3614} {space 4}{result:3676}
+Pseudo R2{space 12} {space 2}{result:0.1102} {space 2}{result:0.0856}
+{hline 21}{c -}{hline 8}{c -}{hline 8}
+
+{com}. 
+. quietly logistic diabetes i.sex
+{txt}
+{com}. etable, append                                                        ///
+>         mstat(N,   nformat(%8.0fc) label("Observations"))             ///
+>         mstat(aic, nformat(%5.0f))                                    ///
+>         mstat(bic, nformat(%5.0f))                                    ///
+>         mstat(pseudo_r2 = e(r2_p), nformat(%5.4f) label("Pseudo R2"))
+{res}
+{smcl}
+{reset}{...}
+{hline 21}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}
+{space 21} diabetes diabetes diabetes
+{hline 21}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}
+Age (years){space 10} {space 3}{result:1.060} {space 3}{result:1.061} {space 8}
+{space 21} {space 1}{result:(0.004)} {space 1}{result:(0.004)} {space 8}
+Sex{space 18} {space 8} {space 8} {space 8}
+  Female{space 13} {space 3}{result:1.066} {space 8} {space 3}{result:1.185}
+{space 21} {space 1}{result:(0.102)} {space 8} {space 1}{result:(0.110)}
+Race{space 17} {space 8} {space 8} {space 8}
+  Black{space 14} {space 3}{result:1.860} {space 8} {space 8}
+{space 21} {space 1}{result:(0.240)} {space 8} {space 8}
+  Other{space 14} {space 3}{result:1.410} {space 8} {space 8}
+{space 21} {space 1}{result:(0.498)} {space 8} {space 8}
+Body mass index (BMI) {space 3}{result:1.073} {space 8} {space 8}
+{space 21} {space 1}{result:(0.009)} {space 8} {space 8}
+Intercept{space 12} {space 3}{result:0.000} {space 3}{result:0.002} {space 3}{result:0.046}
+{space 21} {space 1}{result:(0.000)} {space 1}{result:(0.000)} {space 1}{result:(0.003)}
+Observations{space 9} {space 2}{result:10,349} {space 2}{result:10,349} {space 2}{result:10,349}
+AIC{space 18} {space 4}{result:3571} {space 4}{result:3661} {space 4}{result:4000}
+BIC{space 18} {space 4}{result:3614} {space 4}{result:3676} {space 4}{result:4015}
+Pseudo R2{space 12} {space 2}{result:0.1102} {space 2}{result:0.0856} {space 2}{result:0.0008}
+{hline 21}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}
+
+{com}.   
+. quietly logistic diabetes i.race
+{txt}
+{com}. etable, append                                                        ///
+>         mstat(N,   nformat(%8.0fc) label("Observations"))             ///
+>         mstat(aic, nformat(%5.0f))                                    ///
+>         mstat(bic, nformat(%5.0f))                                    ///
+>         mstat(pseudo_r2 = e(r2_p), nformat(%5.4f) label("Pseudo R2"))
+{res}
+{smcl}
+{reset}{...}
+{hline 21}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}
+{space 21} diabetes diabetes diabetes diabetes
+{hline 21}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}
+Age (years){space 10} {space 3}{result:1.060} {space 3}{result:1.061} {space 8} {space 8}
+{space 21} {space 1}{result:(0.004)} {space 1}{result:(0.004)} {space 8} {space 8}
+Sex{space 18} {space 8} {space 8} {space 8} {space 8}
+  Female{space 13} {space 3}{result:1.066} {space 8} {space 3}{result:1.185} {space 8}
+{space 21} {space 1}{result:(0.102)} {space 8} {space 1}{result:(0.110)} {space 8}
+Race{space 17} {space 8} {space 8} {space 8} {space 8}
+  Black{space 14} {space 3}{result:1.860} {space 8} {space 8} {space 3}{result:1.843}
+{space 21} {space 1}{result:(0.240)} {space 8} {space 8} {space 1}{result:(0.227)}
+  Other{space 14} {space 3}{result:1.410} {space 8} {space 8} {space 3}{result:1.010}
+{space 21} {space 1}{result:(0.498)} {space 8} {space 8} {space 1}{result:(0.348)}
+Body mass index (BMI) {space 3}{result:1.073} {space 8} {space 8} {space 8}
+{space 21} {space 1}{result:(0.009)} {space 8} {space 8} {space 8}
+Intercept{space 12} {space 3}{result:0.000} {space 3}{result:0.002} {space 3}{result:0.046} {space 3}{result:0.047}
+{space 21} {space 1}{result:(0.000)} {space 1}{result:(0.000)} {space 1}{result:(0.003)} {space 1}{result:(0.002)}
+Observations{space 9} {space 2}{result:10,349} {space 2}{result:10,349} {space 2}{result:10,349} {space 2}{result:10,349}
+AIC{space 18} {space 4}{result:3571} {space 4}{result:3661} {space 4}{result:4000} {space 4}{result:3984}
+BIC{space 18} {space 4}{result:3614} {space 4}{result:3676} {space 4}{result:4015} {space 4}{result:4005}
+Pseudo R2{space 12} {space 2}{result:0.1102} {space 2}{result:0.0856} {space 2}{result:0.0008} {space 2}{result:0.0055}
+{hline 21}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}
+
+{com}. 
+. quietly logistic diabetes bmi
+{txt}
+{com}. etable, append column(index)                                          ///
+>         title("Table 5: Logistic Regression Models for Diabetes")     ///
+>         mstat(N,   nformat(%8.0fc) label("Observations"))             ///
+>         mstat(aic, nformat(%5.0f))                                    ///
+>         mstat(bic, nformat(%5.0f))                                    ///
+>         mstat(pseudo_r2 = e(r2_p), nformat(%5.4f) label("Pseudo R2"))
+{res}
+{smcl}
+{reset}{...}
+{p}Table 5: Logistic Regression Models for Diabetes{p_end}
+{hline 21}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}
+{space 21} {space 3}1{space 3} {space 3}2{space 3} {space 3}3{space 3} {space 3}4{space 3} {space 3}5{space 3}
+{hline 21}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}
+Age (years){space 10} {space 2}{result:1.060} {space 2}{result:1.061} {space 7} {space 7} {space 7}
+{space 21} {result:(0.004)} {result:(0.004)} {space 7} {space 7} {space 7}
+Sex{space 18} {space 7} {space 7} {space 7} {space 7} {space 7}
+  Female{space 13} {space 2}{result:1.066} {space 7} {space 2}{result:1.185} {space 7} {space 7}
+{space 21} {result:(0.102)} {space 7} {result:(0.110)} {space 7} {space 7}
+Race{space 17} {space 7} {space 7} {space 7} {space 7} {space 7}
+  Black{space 14} {space 2}{result:1.860} {space 7} {space 7} {space 2}{result:1.843} {space 7}
+{space 21} {result:(0.240)} {space 7} {space 7} {result:(0.227)} {space 7}
+  Other{space 14} {space 2}{result:1.410} {space 7} {space 7} {space 2}{result:1.010} {space 7}
+{space 21} {result:(0.498)} {space 7} {space 7} {result:(0.348)} {space 7}
+Body mass index (BMI) {space 2}{result:1.073} {space 7} {space 7} {space 7} {space 2}{result:1.089}
+{space 21} {result:(0.009)} {space 7} {space 7} {space 7} {result:(0.008)}
+Intercept{space 12} {space 2}{result:0.000} {space 2}{result:0.002} {space 2}{result:0.046} {space 2}{result:0.047} {space 2}{result:0.005}
+{space 21} {result:(0.000)} {result:(0.000)} {result:(0.003)} {result:(0.002)} {result:(0.001)}
+Observations{space 9} {space 1}{result:10,349} {space 1}{result:10,349} {space 1}{result:10,349} {space 1}{result:10,349} {space 1}{result:10,349}
+AIC{space 18} {space 3}{result:3571} {space 3}{result:3661} {space 3}{result:4000} {space 3}{result:3984} {space 3}{result:3892}
+BIC{space 18} {space 3}{result:3614} {space 3}{result:3676} {space 3}{result:4015} {space 3}{result:4005} {space 3}{result:3906}
+Pseudo R2{space 12} {space 1}{result:0.1102} {space 1}{result:0.0856} {space 1}{result:0.0008} {space 1}{result:0.0055} {space 1}{result:0.0279}
+{hline 21}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}
+
+{com}. 
+.         
+. // seperate models with estimates()
+. // ==================================================== 
+. quietly logistic diabetes age i.sex 
+{txt}
+{com}. estimates store Diabetes
+{txt}
+{com}. 
+. quietly logistic highbp age i.sex
+{txt}
+{com}. estimates store Hypertension  
+{txt}
+{com}. 
+. // estimates()  
+. etable, estimates(Diabetes Hypertension) 
+{res}
+{smcl}
+{reset}{...}
+{hline 22}{c -}{hline 8}{c -}{hline 7}
+{space 22} diabetes {space 1}highbp
+{hline 22}{c -}{hline 8}{c -}{hline 7}
+Age (years){space 11} {space 3}{result:1.061} {space 7}
+{space 22} {space 1}{result:(0.004)} {space 7}
+Sex{space 19} {space 8} {space 7}
+  Female{space 14} {space 3}{result:1.168} {space 7}
+{space 22} {space 1}{result:(0.110)} {space 7}
+Intercept{space 13} {space 3}{result:0.002} {space 7}
+{space 22} {space 1}{result:(0.000)} {space 7}
+Age (years){space 11} {space 8} {space 2}{result:1.049}
+{space 22} {space 8} {result:(0.001)}
+Sex{space 19} {space 8} {space 7}
+  Female{space 14} {space 8} {space 2}{result:0.649}
+{space 22} {space 8} {result:(0.028)}
+Intercept{space 13} {space 8} {space 2}{result:0.089}
+{space 22} {space 8} {result:(0.006)}
+Number of observations {space 3}{result:10349} {space 2}{result:10351}
+{hline 22}{c -}{hline 8}{c -}{hline 7}
+
+{com}. 
+. // showeq  
+. etable, replay showeq  
+{res}
+{smcl}
+{reset}{...}
+{hline 22}{c -}{hline 8}{c -}{hline 7}
+{space 22} diabetes {space 1}highbp
+{hline 22}{c -}{hline 8}{c -}{hline 7}
+Diabetes status{space 7} {space 8} {space 7}
+  Age (years){space 9} {space 3}{result:1.061} {space 7}
+{space 22} {space 1}{result:(0.004)} {space 7}
+  Sex{space 17} {space 8} {space 7}
+    Female{space 12} {space 3}{result:1.168} {space 7}
+{space 22} {space 1}{result:(0.110)} {space 7}
+  Intercept{space 11} {space 3}{result:0.002} {space 7}
+{space 22} {space 1}{result:(0.000)} {space 7}
+High blood pressure{space 3} {space 8} {space 7}
+  Age (years){space 9} {space 8} {space 2}{result:1.049}
+{space 22} {space 8} {result:(0.001)}
+  Sex{space 17} {space 8} {space 7}
+    Female{space 12} {space 8} {space 2}{result:0.649}
+{space 22} {space 8} {result:(0.028)}
+  Intercept{space 11} {space 8} {space 2}{result:0.089}
+{space 22} {space 8} {result:(0.006)}
+Number of observations {space 3}{result:10349} {space 2}{result:10351}
+{hline 22}{c -}{hline 8}{c -}{hline 7}
+
+{com}. 
+. // eqrecode()  
+. etable, replay eqrecode(diabetes = highbp) showeq
+{res}
+{smcl}
+{reset}{...}
+{hline 22}{c -}{hline 8}{c -}{hline 7}
+{space 22} diabetes {space 1}highbp
+{hline 22}{c -}{hline 8}{c -}{hline 7}
+High blood pressure{space 3} {space 8} {space 7}
+  Age (years){space 9} {space 3}{result:1.061} {space 2}{result:1.049}
+{space 22} {space 1}{result:(0.004)} {result:(0.001)}
+  Sex{space 17} {space 8} {space 7}
+    Female{space 12} {space 3}{result:1.168} {space 2}{result:0.649}
+{space 22} {space 1}{result:(0.110)} {result:(0.028)}
+  Intercept{space 11} {space 3}{result:0.002} {space 2}{result:0.089}
+{space 22} {space 1}{result:(0.000)} {result:(0.006)}
+Number of observations {space 3}{result:10349} {space 2}{result:10351}
+{hline 22}{c -}{hline 8}{c -}{hline 7}
+
+{com}. 
+. // column()  
+. etable, replay column(estimates)    
+{res}
+{smcl}
+{reset}{...}
+{hline 22}{c -}{hline 8}{c -}{hline 12}
+{space 22} Diabetes Hypertension
+{hline 22}{c -}{hline 8}{c -}{hline 12}
+High blood pressure{space 3} {space 8} {space 12}
+  Age (years){space 9} {space 3}{result:1.061} {space 7}{result:1.049}
+{space 22} {space 1}{result:(0.004)} {space 5}{result:(0.001)}
+  Sex{space 17} {space 8} {space 12}
+    Female{space 12} {space 3}{result:1.168} {space 7}{result:0.649}
+{space 22} {space 1}{result:(0.110)} {space 5}{result:(0.028)}
+  Intercept{space 11} {space 3}{result:0.002} {space 7}{result:0.089}
+{space 22} {space 1}{result:(0.000)} {space 5}{result:(0.006)}
+Number of observations {space 3}{result:10349} {space 7}{result:10351}
+{hline 22}{c -}{hline 8}{c -}{hline 12}
+
+{com}. 
+. 
+. 
+. 
+. 
+. // Multivariate models with equations
+. // ========================================================
+. gsem (diabetes <- age i.sex, logit)       ///
+>      (highbp <- age i.sex, logit), nolog
+{res}
+{txt}{col 1}Generalized structural equation model{col 57}{lalign 13:Number of obs}{col 70} = {res}{ralign 6:10,351}
+
+{txt}{col 1}{lalign 10:Response: }{col 11}{res}{lalign 9:diabetes}{txt}{col 57}{lalign 13:Number of obs}{col 70} = {res}{ralign 6:10,349}
+{txt}{col 1}{lalign 10:Family: }{col 11}{lalign 9:Bernoulli}
+{col 1}{lalign 10:Link: }{col 11}{lalign 9:Logit}
+
+{col 1}{lalign 10:Response: }{col 11}{res}{lalign 9:highbp}{txt}{col 57}{lalign 13:Number of obs}{col 70} = {res}{ralign 6:10,351}
+{txt}{col 1}{lalign 10:Family: }{col 11}{lalign 9:Bernoulli}
+{col 1}{lalign 10:Link: }{col 11}{lalign 9:Logit}
+
+{col 1}{lalign 14:Log likelihood}{col 15} = {res}{ralign 10:-8096.1732}
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      z{col 46}   P>|z|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}diabetes     {txt}{c |}
+{space 9}age {c |}{col 14}{res}{space 2} .0588148{col 26}{space 2} .0037284{col 37}{space 1}   15.77{col 46}{space 3}0.000{col 54}{space 4} .0515073{col 67}{space 3} .0661224
+{txt}{space 12} {c |}
+{space 9}sex {c |}
+{space 5}Female  {c |}{col 14}{res}{space 2} .1554957{col 26}{space 2} .0940526{col 37}{space 1}    1.65{col 46}{space 3}0.098{col 54}{space 4}-.0288439{col 67}{space 3} .3398354
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-6.276253{col 26}{space 2}  .234997{col 37}{space 1}  -26.71{col 46}{space 3}0.000{col 54}{space 4}-6.736838{col 67}{space 3}-5.815667
+{txt}{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}highbp       {txt}{c |}
+{space 9}age {c |}{col 14}{res}{space 2} .0478776{col 26}{space 2} .0013293{col 37}{space 1}   36.02{col 46}{space 3}0.000{col 54}{space 4} .0452722{col 67}{space 3}  .050483
+{txt}{space 12} {c |}
+{space 9}sex {c |}
+{space 5}Female  {c |}{col 14}{res}{space 2}-.4326817{col 26}{space 2} .0431853{col 37}{space 1}  -10.02{col 46}{space 3}0.000{col 54}{space 4}-.5173233{col 67}{space 3}-.3480402
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} -2.42151{col 26}{space 2} .0715882{col 37}{space 1}  -33.83{col 46}{space 3}0.000{col 54}{space 4}-2.561821{col 67}{space 3}  -2.2812
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. * let -etable- do its thing
+. etable, showeq
+{res}
+{smcl}
+{reset}{...}
+{hline 22}{c -}{hline 15}
+{space 22} diabetes highbp
+{hline 22}{c -}{hline 15}
+Diabetes status{space 7} {space 15}
+  Age (years){space 9} {space 10}{result:0.059}
+{space 22} {space 8}{result:(0.004)}
+  Sex{space 17} {space 15}
+    Female{space 12} {space 10}{result:0.155}
+{space 22} {space 8}{result:(0.094)}
+  Intercept{space 11} {space 9}{result:-6.276}
+{space 22} {space 8}{result:(0.235)}
+High blood pressure{space 3} {space 15}
+  Age (years){space 9} {space 10}{result:0.048}
+{space 22} {space 8}{result:(0.001)}
+  Sex{space 17} {space 15}
+    Female{space 12} {space 9}{result:-0.433}
+{space 22} {space 8}{result:(0.043)}
+  Intercept{space 11} {space 9}{result:-2.422}
+{space 22} {space 8}{result:(0.072)}
+Number of observations {space 10}{result:10351}
+{hline 22}{c -}{hline 15}
+
+{com}. * show the layout
+. collect layout
+{res}
+{txt}{p 0 12 2}
+Collection: {res:ETable}
+{p_end}
+{p 0 12 2}
+{space 6}Rows: {res:coleq#colname[]#result[_r_b _r_se] result[N]}
+{p_end}
+{p 0 12 2}
+{space 3}Columns: {res:etable_depvar#stars[value]}
+{p_end}
+{p 0 12 2}
+{space 3}Table 1: {res:17 x 1}
+{p_end}
+
+{res}{smcl}
+{reset}{...}
+{hline 22}{c -}{hline 15}
+{space 22} diabetes highbp
+{hline 22}{c -}{hline 15}
+Diabetes status{space 7} {space 15}
+  Age (years){space 9} {space 10}{result:0.059}
+{space 22} {space 8}{result:(0.004)}
+  Sex{space 17} {space 15}
+    Female{space 12} {space 10}{result:0.155}
+{space 22} {space 8}{result:(0.094)}
+  Intercept{space 11} {space 9}{result:-6.276}
+{space 22} {space 8}{result:(0.235)}
+High blood pressure{space 3} {space 15}
+  Age (years){space 9} {space 10}{result:0.048}
+{space 22} {space 8}{result:(0.001)}
+  Sex{space 17} {space 15}
+    Female{space 12} {space 9}{result:-0.433}
+{space 22} {space 8}{result:(0.043)}
+  Intercept{space 11} {space 9}{result:-2.422}
+{space 22} {space 8}{result:(0.072)}
+Number of observations {space 10}{result:10351}
+{hline 22}{c -}{hline 15}
+
+{com}. * change the layout
+. collect layout (colname#result[_r_b _r_se]) (coleq#stars[value])
+{res}
+{txt}{p 0 12 2}
+Collection: {res:ETable}
+{p_end}
+{p 0 12 2}
+{space 6}Rows: {res:colname#result[_r_b _r_se]}
+{p_end}
+{p 0 12 2}
+{space 3}Columns: {res:coleq#stars[value]}
+{p_end}
+{p 0 12 2}
+{space 3}Table 1: {res:7 x 2}
+{p_end}
+
+{res}{smcl}
+{reset}{...}
+{hline 11}{c -}{hline 15}{c -}{hline 19}
+{space 11} Diabetes status High blood pressure
+{hline 11}{c -}{hline 15}{c -}{hline 19}
+Age (years) {space 10}{result:0.059} {space 14}{result:0.048}
+{space 11} {space 8}{result:(0.004)} {space 12}{result:(0.001)}
+Sex{space 8} {space 15} {space 19}
+  Female{space 3} {space 10}{result:0.155} {space 13}{result:-0.433}
+{space 11} {space 8}{result:(0.094)} {space 12}{result:(0.043)}
+Intercept{space 2} {space 9}{result:-6.276} {space 13}{result:-2.422}
+{space 11} {space 8}{result:(0.235)} {space 12}{result:(0.072)}
+{hline 11}{c -}{hline 15}{c -}{hline 19}
+
+{com}. 
+. 
+.  
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+.         
+.         
+.         
+.                 
+.         
+.         
+.         
+.         
+.         
+. // =============================================================================                
+. //                             MARGINAL PREDICTIONS
+. // =============================================================================
+. quietly logistic diabetes age i.sex i.race bmi
+{txt}
+{com}. quietly margins sex race
+{txt}
+{com}. etable, margins 
+{res}
+{smcl}
+{reset}{...}
+{hline 22}{c -}{hline 8}
+{space 22} diabetes
+{hline 22}{c -}{hline 8}
+Sex{space 19} {space 8}
+  Male{space 16} {space 3}{result:0.047}
+{space 22} {space 1}{result:(0.003)}
+  Female{space 14} {space 3}{result:0.049}
+{space 22} {space 1}{result:(0.003)}
+Race{space 18} {space 8}
+  White{space 15} {space 3}{result:0.044}
+{space 22} {space 1}{result:(0.002)}
+  Black{space 15} {space 3}{result:0.077}
+{space 22} {space 1}{result:(0.008)}
+  Other{space 15} {space 3}{result:0.061}
+{space 22} {space 1}{result:(0.019)}
+Number of observations {space 3}{result:10349}
+{hline 22}{c -}{hline 8}
+
+{com}. 
+. logistic diabetes age i.sex i.race bmi
+{res}
+{txt}{col 1}Logistic regression{col 57}{lalign 13:Number of obs}{col 70} = {res}{ralign 6:10,349}
+{txt}{col 57}{lalign 13:LR chi2({res:5})}{col 70} = {res}{ralign 6:440.79}
+{txt}{col 57}{lalign 13:Prob > chi2}{col 70} = {res}{ralign 6:0.0000}
+{txt}{col 1}{lalign 14:Log likelihood}{col 15} = {res}{ralign 10:-1779.3659}{txt}{col 57}{lalign 13:Pseudo R2}{col 70} = {res}{ralign 6:0.1102}
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}    diabetes{col 14}{c |} Odds ratio{col 26}   Std. err.{col 38}      z{col 46}   P>|z|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}age {c |}{col 14}{res}{space 2} 1.060051{col 26}{space 2} .0040465{col 37}{space 1}   15.28{col 46}{space 3}0.000{col 54}{space 4}  1.05215{col 67}{space 3} 1.068012
+{txt}{space 12} {c |}
+{space 9}sex {c |}
+{space 5}Female  {c |}{col 14}{res}{space 2} 1.066188{col 26}{space 2} .1023098{col 37}{space 1}    0.67{col 46}{space 3}0.504{col 54}{space 4} .8833928{col 67}{space 3} 1.286809
+{txt}{space 12} {c |}
+{space 8}race {c |}
+{space 6}Black  {c |}{col 14}{res}{space 2} 1.860341{col 26}{space 2} .2397962{col 37}{space 1}    4.82{col 46}{space 3}0.000{col 54}{space 4} 1.445019{col 67}{space 3} 2.395034
+{txt}{space 6}Other  {c |}{col 14}{res}{space 2} 1.410226{col 26}{space 2} .4978389{col 37}{space 1}    0.97{col 46}{space 3}0.330{col 54}{space 4} .7059876{col 67}{space 3} 2.816959
+{txt}{space 12} {c |}
+{space 9}bmi {c |}{col 14}{res}{space 2} 1.072919{col 26}{space 2} .0089087{col 37}{space 1}    8.48{col 46}{space 3}0.000{col 54}{space 4} 1.055599{col 67}{space 3} 1.090523
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .0002825{col 26}{space 2} .0000921{col 37}{space 1}  -25.05{col 46}{space 3}0.000{col 54}{space 4}  .000149{col 67}{space 3} .0005354
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{p 0 6 2}Note: {bf:_cons} estimates baseline odds{txt}.{p_end}
+
+{com}. margins sex race, at(age=40 bmi=20)
+{res}
+{txt}{col 1}Predictive margins{col 57}{lalign 13:Number of obs}{col 70} = {res}{ralign 6:10,349}
+{txt}{col 1}Model VCE: {res:OIM}
+
+{txt}{p2colset 1 13 13 2}{...}
+{p2col:Expression:}{res:Pr(diabetes), predict()}{p_end}
+{p2colreset}{...}
+{lalign 4:At: }{space 0}{lalign 3:age} = {res:{ralign 2:40}}
+{lalign 4:}{space 0}{lalign 3:bmi} = {res:{ralign 2:20}}
+
+{res}{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26} Delta-method
+{col 14}{c |}     Margin{col 26}   std. err.{col 38}      z{col 46}   P>|z|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}sex {c |}
+{space 7}Male  {c |}{col 14}{res}{space 2} .0128851{col 26}{space 2} .0014956{col 37}{space 1}    8.62{col 46}{space 3}0.000{col 54}{space 4} .0099536{col 67}{space 3} .0158165
+{txt}{space 5}Female  {c |}{col 14}{res}{space 2} .0137255{col 26}{space 2} .0016546{col 37}{space 1}    8.30{col 46}{space 3}0.000{col 54}{space 4} .0104825{col 67}{space 3} .0169686
+{txt}{space 12} {c |}
+{space 8}race {c |}
+{space 6}White  {c |}{col 14}{res}{space 2} .0121585{col 26}{space 2} .0013513{col 37}{space 1}    9.00{col 46}{space 3}0.000{col 54}{space 4}   .00951{col 67}{space 3} .0148071
+{txt}{space 6}Black  {c |}{col 14}{res}{space 2} .0223846{col 26}{space 2} .0034108{col 37}{space 1}    6.56{col 46}{space 3}0.000{col 54}{space 4} .0156996{col 67}{space 3} .0290696
+{txt}{space 6}Other  {c |}{col 14}{res}{space 2} .0170611{col 26}{space 2} .0059997{col 37}{space 1}    2.84{col 46}{space 3}0.004{col 54}{space 4} .0053019{col 67}{space 3} .0288203
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. etable, margins 
+{res}
+{smcl}
+{reset}{...}
+{hline 22}{c -}{hline 8}
+{space 22} diabetes
+{hline 22}{c -}{hline 8}
+Sex{space 19} {space 8}
+  Male{space 16} {space 3}{result:0.013}
+{space 22} {space 1}{result:(0.001)}
+  Female{space 14} {space 3}{result:0.014}
+{space 22} {space 1}{result:(0.002)}
+Race{space 18} {space 8}
+  White{space 15} {space 3}{result:0.012}
+{space 22} {space 1}{result:(0.001)}
+  Black{space 15} {space 3}{result:0.022}
+{space 22} {space 1}{result:(0.003)}
+  Other{space 15} {space 3}{result:0.017}
+{space 22} {space 1}{result:(0.006)}
+Number of observations {space 3}{result:10349}
+{hline 22}{c -}{hline 8}
+
+{com}.         
+. quietly logistic diabetes age i.sex i.race bmi
+{txt}
+{com}. quietly margins, at(age=(20(10)60))
+{txt}
+{com}. etable, margins 
+{res}
+{smcl}
+{reset}{...}
+{hline 22}{c -}{hline 8}
+{space 22} diabetes
+{hline 22}{c -}{hline 8}
+_at{space 19} {space 8}
+  1{space 19} {space 3}{result:0.007}
+{space 22} {space 1}{result:(0.001)}
+  2{space 19} {space 3}{result:0.012}
+{space 22} {space 1}{result:(0.001)}
+  3{space 19} {space 3}{result:0.021}
+{space 22} {space 1}{result:(0.002)}
+  4{space 19} {space 3}{result:0.037}
+{space 22} {space 1}{result:(0.002)}
+  5{space 19} {space 3}{result:0.064}
+{space 22} {space 1}{result:(0.003)}
+Number of observations {space 3}{result:10349}
+{hline 22}{c -}{hline 8}
+
+{com}. 
+. collect layout
+{res}
+{txt}{p 0 12 2}
+Collection: {res:ETable}
+{p_end}
+{p 0 12 2}
+{space 6}Rows: {res:coleq#colname[]#result[_r_b _r_se] result[N]}
+{p_end}
+{p 0 12 2}
+{space 3}Columns: {res:etable_depvar#stars[value]}
+{p_end}
+{p 0 12 2}
+{space 3}Table 1: {res:12 x 1}
+{p_end}
+
+{res}{smcl}
+{reset}{...}
+{hline 22}{c -}{hline 8}
+{space 22} diabetes
+{hline 22}{c -}{hline 8}
+_at{space 19} {space 8}
+  1{space 19} {space 3}{result:0.007}
+{space 22} {space 1}{result:(0.001)}
+  2{space 19} {space 3}{result:0.012}
+{space 22} {space 1}{result:(0.001)}
+  3{space 19} {space 3}{result:0.021}
+{space 22} {space 1}{result:(0.002)}
+  4{space 19} {space 3}{result:0.037}
+{space 22} {space 1}{result:(0.002)}
+  5{space 19} {space 3}{result:0.064}
+{space 22} {space 1}{result:(0.003)}
+Number of observations {space 3}{result:10349}
+{hline 22}{c -}{hline 8}
+
+{com}. 
+. collect label dim _at "Age (years)", modify
+{res}{txt}
+{com}. collect label levels _at 1 "Age = 20"    ///
+>                          2 "Age = 30"    ///
+>                          3 "Age = 40"    ///
+>                          4 "Age = 50"    ///
+>                          5 "Age = 60"
+{res}{txt}
+{com}. 
+. collect layout (coleq#colname[]#result[_r_b _r_se] result[N]) ///
+>                (etable_depvar#stars[value])
+{res}
+{txt}{p 0 12 2}
+Collection: {res:ETable}
+{p_end}
+{p 0 12 2}
+{space 6}Rows: {res:coleq#colname[]#result[_r_b _r_se] result[N]}
+{p_end}
+{p 0 12 2}
+{space 3}Columns: {res:etable_depvar#stars[value]}
+{p_end}
+{p 0 12 2}
+{space 3}Table 1: {res:12 x 1}
+{p_end}
+
+{res}{smcl}
+{reset}{...}
+{hline 22}{c -}{hline 8}
+{space 22} diabetes
+{hline 22}{c -}{hline 8}
+_at{space 19} {space 8}
+  Age = 20{space 12} {space 3}{result:0.007}
+{space 22} {space 1}{result:(0.001)}
+  Age = 30{space 12} {space 3}{result:0.012}
+{space 22} {space 1}{result:(0.001)}
+  Age = 40{space 12} {space 3}{result:0.021}
+{space 22} {space 1}{result:(0.002)}
+  Age = 50{space 12} {space 3}{result:0.037}
+{space 22} {space 1}{result:(0.002)}
+  Age = 60{space 12} {space 3}{result:0.064}
+{space 22} {space 1}{result:(0.003)}
+Number of observations {space 3}{result:10349}
+{hline 22}{c -}{hline 8}
+
+{com}.                 
+.                 
+.                 
+.                 
+. // COMBINE PARAMETER ESTIMATES AND MARGINAL PREDICTIONS
+. // =============================================================================                
+. quietly logistic diabetes i.sex i.race
+{txt}
+{com}. etable
+{res}
+{smcl}
+{reset}{...}
+{hline 22}{c -}{hline 8}
+{space 22} diabetes
+{hline 22}{c -}{hline 8}
+Sex{space 19} {space 8}
+  Female{space 14} {space 3}{result:1.180}
+{space 22} {space 1}{result:(0.109)}
+Race{space 18} {space 8}
+  Black{space 15} {space 3}{result:1.839}
+{space 22} {space 1}{result:(0.227)}
+  Other{space 15} {space 3}{result:1.017}
+{space 22} {space 1}{result:(0.351)}
+Intercept{space 13} {space 3}{result:0.043}
+{space 22} {space 1}{result:(0.003)}
+Number of observations {space 3}{result:10349}
+{hline 22}{c -}{hline 8}
+
+{com}. 
+. quietly margins sex race
+{txt}
+{com}. etable, append margins
+{res}
+{smcl}
+{reset}{...}
+{hline 22}{c -}{hline 8}{c -}{hline 8}
+{space 22} diabetes diabetes
+{hline 22}{c -}{hline 8}{c -}{hline 8}
+Sex{space 19} {space 8} {space 8}
+  Male{space 16} {space 8} {space 3}{result:0.044}
+{space 22} {space 8} {space 1}{result:(0.003)}
+  Female{space 14} {space 3}{result:1.180} {space 3}{result:0.052}
+{space 22} {space 1}{result:(0.109)} {space 1}{result:(0.003)}
+Race{space 18} {space 8} {space 8}
+  White{space 15} {space 8} {space 3}{result:0.045}
+{space 22} {space 8} {space 1}{result:(0.002)}
+  Black{space 15} {space 3}{result:1.839} {space 3}{result:0.079}
+{space 22} {space 1}{result:(0.227)} {space 1}{result:(0.008)}
+  Other{space 15} {space 3}{result:1.017} {space 3}{result:0.045}
+{space 22} {space 1}{result:(0.351)} {space 1}{result:(0.015)}
+Intercept{space 13} {space 3}{result:0.043} {space 8}
+{space 22} {space 1}{result:(0.003)} {space 8}
+Number of observations {space 3}{result:10349} {space 3}{result:10349}
+{hline 22}{c -}{hline 8}{c -}{hline 8}
+
+{com}.                 
+. quietly logistic diabetes i.sex i.race
+{txt}
+{com}. quietly etable
+{txt}
+{com}. quietly margins sex race
+{txt}
+{com}. etable, append margins keep(sex race)                 ///
+>         cstat(_r_b, nformat(%4.2f))                   ///
+>         cstat(_r_ci, cidelimiter(,) nformat(%5.2f))                             
+{res}
+{smcl}
+{reset}{...}
+{hline 22}{c -}{hline 12}{c -}{hline 12}
+{space 22} {space 2}diabetes{space 2} {space 2}diabetes{space 2}
+{hline 22}{c -}{hline 12}{c -}{hline 12}
+Sex{space 19} {space 12} {space 12}
+  Male{space 16} {space 12} {space 8}{result:0.04}
+{space 22} {space 12} {result:[0.04, 0.05]}
+  Female{space 14} {space 8}{result:1.18} {space 8}{result:0.05}
+{space 22} {result:[0.98, 1.42]} {result:[0.05, 0.06]}
+Race{space 18} {space 12} {space 12}
+  White{space 15} {space 12} {space 8}{result:0.04}
+{space 22} {space 12} {result:[0.04, 0.05]}
+  Black{space 15} {space 8}{result:1.84} {space 8}{result:0.08}
+{space 22} {result:[1.44, 2.34]} {result:[0.06, 0.10]}
+  Other{space 15} {space 8}{result:1.02} {space 8}{result:0.05}
+{space 22} {result:[0.52, 2.00]} {result:[0.02, 0.07]}
+Number of observations {space 7}{result:10349} {space 7}{result:10349}
+{hline 22}{c -}{hline 12}{c -}{hline 12}
+
+{com}. 
+. collect layout        
+{res}
+{txt}{p 0 12 2}
+Collection: {res:ETable}
+{p_end}
+{p 0 12 2}
+{space 6}Rows: {res:coleq#colname[sex race]#result[_r_b _r_ci] result[N]}
+{p_end}
+{p 0 12 2}
+{space 3}Columns: {res:etable_depvar#stars[value]}
+{p_end}
+{p 0 12 2}
+{space 3}Table 1: {res:13 x 2}
+{p_end}
+
+{res}{smcl}
+{reset}{...}
+{hline 22}{c -}{hline 12}{c -}{hline 12}
+{space 22} {space 2}diabetes{space 2} {space 2}diabetes{space 2}
+{hline 22}{c -}{hline 12}{c -}{hline 12}
+Sex{space 19} {space 12} {space 12}
+  Male{space 16} {space 12} {space 8}{result:0.04}
+{space 22} {space 12} {result:[0.04, 0.05]}
+  Female{space 14} {space 8}{result:1.18} {space 8}{result:0.05}
+{space 22} {result:[0.98, 1.42]} {result:[0.05, 0.06]}
+Race{space 18} {space 12} {space 12}
+  White{space 15} {space 12} {space 8}{result:0.04}
+{space 22} {space 12} {result:[0.04, 0.05]}
+  Black{space 15} {space 8}{result:1.84} {space 8}{result:0.08}
+{space 22} {result:[1.44, 2.34]} {result:[0.06, 0.10]}
+  Other{space 15} {space 8}{result:1.02} {space 8}{result:0.05}
+{space 22} {result:[0.52, 2.00]} {result:[0.02, 0.07]}
+Number of observations {space 7}{result:10349} {space 7}{result:10349}
+{hline 22}{c -}{hline 12}{c -}{hline 12}
+
+{com}.         
+. collect label levels etable_depvar 1 "Odds Ratio"    ///
+>                                    2 "Pr(diabetes)", modify        
+{res}{txt}
+{com}.         
+. collect layout (coleq#colname[sex race]#result[_r_b _r_ci])  ///
+>                (etable_depvar#stars[value])
+{res}
+{txt}{p 0 12 2}
+Collection: {res:ETable}
+{p_end}
+{p 0 12 2}
+{space 6}Rows: {res:coleq#colname[sex race]#result[_r_b _r_ci]}
+{p_end}
+{p 0 12 2}
+{space 3}Columns: {res:etable_depvar#stars[value]}
+{p_end}
+{p 0 12 2}
+{space 3}Table 1: {res:12 x 2}
+{p_end}
+
+{res}{smcl}
+{reset}{...}
+{hline 8}{c -}{hline 12}{c -}{hline 12}
+{space 8} {space 1}Odds Ratio{space 1} Pr(diabetes)
+{hline 8}{c -}{hline 12}{c -}{hline 12}
+Sex{space 5} {space 12} {space 12}
+  Male{space 2} {space 12} {space 8}{result:0.04}
+{space 8} {space 12} {result:[0.04, 0.05]}
+  Female {space 8}{result:1.18} {space 8}{result:0.05}
+{space 8} {result:[0.98, 1.42]} {result:[0.05, 0.06]}
+Race{space 4} {space 12} {space 12}
+  White{space 1} {space 12} {space 8}{result:0.04}
+{space 8} {space 12} {result:[0.04, 0.05]}
+  Black{space 1} {space 8}{result:1.84} {space 8}{result:0.08}
+{space 8} {result:[1.44, 2.34]} {result:[0.06, 0.10]}
+  Other{space 1} {space 8}{result:1.02} {space 8}{result:0.05}
+{space 8} {result:[0.52, 2.00]} {result:[0.02, 0.07]}
+{hline 8}{c -}{hline 12}{c -}{hline 12}
+
+{com}.         
+.         
+. 
+.         
+.     
+.     
+.     
+. // =============================================================================    
+. //                            Basics of -collect-    
+. // =============================================================================    
+.     
+. quietly logistic diabetes age i.highbp
+{txt}
+{com}. quietly etable
+{txt}
+{com}. collect layout
+{res}
+{txt}{p 0 12 2}
+Collection: {res:ETable}
+{p_end}
+{p 0 12 2}
+{space 6}Rows: {res:coleq#colname[]#result[_r_b _r_se] result[N]}
+{p_end}
+{p 0 12 2}
+{space 3}Columns: {res:etable_depvar#stars[value]}
+{p_end}
+{p 0 12 2}
+{space 3}Table 1: {res:8 x 1}
+{p_end}
+
+{res}{smcl}
+{reset}{...}
+{hline 22}{c -}{hline 8}
+{space 22} diabetes
+{hline 22}{c -}{hline 8}
+Age (years){space 11} {space 3}{result:1.056}
+{space 22} {space 1}{result:(0.004)}
+High blood pressure{space 3} {space 8}
+  1{space 19} {space 3}{result:1.503}
+{space 22} {space 1}{result:(0.151)}
+Intercept{space 13} {space 3}{result:0.002}
+{space 22} {space 1}{result:(0.000)}
+Number of observations {space 3}{result:10349}
+{hline 22}{c -}{hline 8}
+
+{com}. 
+. collect dims
+{res}
+{txt}Collection dimensions
+Collection: ETable
+{hline 41}
+                   Dimension   No. levels
+{hline 41}
+Layout, style, header, label
+                      cmdset   {res:1         }
+                       coleq   {res:1         }
+                     colname   {res:8         }
+           colname_remainder   {res:1         }
+               etable_depvar   {res:1         }
+              etable_dvlabel   {res:1         }
+            etable_estimates   {res:1         }
+                etable_title   {res:1         }
+                      highbp   {res:2         }
+               program_class   {res:2         }
+                      result   {res:46        }
+                 result_type   {res:3         }
+                     rowname   {res:1         }
+                       stars   {res:2         }
+
+Style only
+                border_block   {res:4         }
+                   cell_type   {res:4         }
+{hline 41}
+
+{com}. 
+. collect levelsof highbp
+{res}
+{txt}Collection: ETable
+ Dimension: {res:highbp}
+{p 0 12 2}
+{space 4}Levels: 0 1
+{p_end}
+
+{com}. 
+. collect label list highbp
+{res}
+{txt}{p 0 12 2}
+Collection: ETable
+{p_end}
+{p 0 12 2}
+{space 1}Dimension: {res:highbp}
+{p_end}
+{p 0 12 2}
+{space 5}Label: High blood pressure
+{p_end}
+
+{com}. 
+. collect label levels highbp 0 "No" 1 "Yes"
+{res}{txt}
+{com}. 
+. collect label list colname
+{res}
+{txt}{p 0 14 2}
+{space 2}Collection: ETable
+{p_end}
+{p 0 14 2}
+{space 3}Dimension: {res:colname}
+{p_end}
+{p 0 14 2}
+{space 7}Label: Covariate names and column names
+{p_end}
+{p 0 14 2}
+Level labels: 
+{p_end}
+{p 0 14 2}
+{space 7}_cons{space 2}Intercept
+{p_end}
+{p 0 14 2}
+{space 9}age{space 2}Age (years)
+{p_end}
+{p 0 14 2}
+{space 6}highbp{space 2}High blood pressure
+{p_end}
+
+{com}. 
+. collect label levels colname highbp "Hypertension", modify
+{res}{txt}
+{com}. 
+. collect label list colname
+{res}
+{txt}{p 0 14 2}
+{space 2}Collection: ETable
+{p_end}
+{p 0 14 2}
+{space 3}Dimension: {res:colname}
+{p_end}
+{p 0 14 2}
+{space 7}Label: Covariate names and column names
+{p_end}
+{p 0 14 2}
+Level labels: 
+{p_end}
+{p 0 14 2}
+{space 7}_cons{space 2}Intercept
+{p_end}
+{p 0 14 2}
+{space 9}age{space 2}Age (years)
+{p_end}
+{p 0 14 2}
+{space 6}highbp{space 2}Hypertension
+{p_end}
+
+{com}. 
+. 
+. 
+. 
+. 
+. quietly logistic diabetes age i.highbp
+{txt}
+{com}. quietly etable
+{txt}
+{com}. collect label levels highbp 0 "No" 1 "Yes"
+{res}{txt}
+{com}. collect label levels colname highbp "Hypertension", modify
+{res}{txt}
+{com}. collect preview
+{res}
+{smcl}
+{reset}{...}
+{hline 22}{c -}{hline 8}
+{space 22} diabetes
+{hline 22}{c -}{hline 8}
+Age (years){space 11} {space 3}{result:1.056}
+{space 22} {space 1}{result:(0.004)}
+Hypertension{space 10} {space 8}
+  Yes{space 17} {space 3}{result:1.503}
+{space 22} {space 1}{result:(0.151)}
+Intercept{space 13} {space 3}{result:0.002}
+{space 22} {space 1}{result:(0.000)}
+Number of observations {space 3}{result:10349}
+{hline 22}{c -}{hline 8}
+
+{com}. 
+. 
+. 
+. 
+. 
+. 
+. 
+. collect clear
+{res}{txt}
+{com}. collect: logistic diabetes age i.sex
+{res}
+{txt}{col 1}Logistic regression{col 57}{lalign 13:Number of obs}{col 70} = {res}{ralign 6:10,349}
+{txt}{col 57}{lalign 13:LR chi2({res:2})}{col 70} = {res}{ralign 6:345.17}
+{txt}{col 57}{lalign 13:Prob > chi2}{col 70} = {res}{ralign 6:0.0000}
+{txt}{col 1}{lalign 14:Log likelihood}{col 15} = {res}{ralign 10:-1827.1756}{txt}{col 57}{lalign 13:Pseudo R2}{col 70} = {res}{ralign 6:0.0863}
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}    diabetes{col 14}{c |} Odds ratio{col 26}   Std. err.{col 38}      z{col 46}   P>|z|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}age {c |}{col 14}{res}{space 2} 1.060579{col 26}{space 2} .0039543{col 37}{space 1}   15.77{col 46}{space 3}0.000{col 54}{space 4} 1.052857{col 67}{space 3} 1.068357
+{txt}{space 12} {c |}
+{space 9}sex {c |}
+{space 5}Female  {c |}{col 14}{res}{space 2} 1.168237{col 26}{space 2} .1098757{col 37}{space 1}    1.65{col 46}{space 3}0.098{col 54}{space 4} .9715681{col 67}{space 3} 1.404716
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .0018804{col 26}{space 2} .0004419{col 37}{space 1}  -26.71{col 46}{space 3}0.000{col 54}{space 4} .0011864{col 67}{space 3} .0029805
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{p 0 6 2}Note: {bf:_cons} estimates baseline odds{txt}.{p_end}
+{res}{txt}
+{com}. collect layout (coleq#colname[]#result[_r_b _r_se] result[N])  ///
+>                (etable_depvar#stars[value])
+{res}{p 0 1 2}
+{txt}(dimension {bf:etable_depvar} not found)
+{p_end}
+{p 0 1 2}
+(dimension {bf:stars} not found)
+{p_end}
+{res}
+{txt}{p 0 12 2}
+Collection: {res:default}
+{p_end}
+{p 0 12 2}
+{space 6}Rows: {res:coleq#colname[]#result[_r_b _r_se] result[N]}
+{p_end}
+{p 0 12 2}
+{space 3}Columns: {res:etable_depvar#stars[value]}
+{p_end}
+{p 0 12 2}
+{space 3}Table 1: {res:14 x 1}
+{p_end}
+
+{res}{smcl}
+{reset}{...}
+{hline 22}{c -}{c TT}{c -}{hline 8}
+Diabetes status{space 7} {c |} {space 8}
+  Age (years){space 9} {c |} {space 8}
+    Coefficient{space 7} {c |} {result:1.060579}
+    Std. error{space 8} {c |} {result:.0039543}
+  Male{space 16} {c |} {space 8}
+    Coefficient{space 7} {c |} {space 7}{result:1}
+    Std. error{space 8} {c |} {space 7}{result:0}
+  Female{space 14} {c |} {space 8}
+    Coefficient{space 7} {c |} {result:1.168237}
+    Std. error{space 8} {c |} {result:.1098757}
+  Intercept{space 11} {c |} {space 8}
+    Coefficient{space 7} {c |} {result:.0018804}
+    Std. error{space 8} {c |} {result:.0004419}
+Number of observations {c |} {space 3}{result:10349}
+{hline 22}{c -}{c BT}{c -}{hline 8}
+
+{com}.                
+. 
+. 
+.                
+.                
+.                
+. 
+.     
+.     
+.     
+.     
+.     
+.     
+.     
+.     
+. log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\DELL\Documents\Data\Stata\Stata Training Material General\StataTraining\32_Etables\examples\examples_etable.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res}10 Mar 2022, 16:10:38
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}

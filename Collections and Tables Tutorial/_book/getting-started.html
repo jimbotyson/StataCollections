@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>3 Getting Started | Collections and Tables in Stata 17</title>
+  <meta name="description" content="3 Getting Started | Collections and Tables in Stata 17" />
+  <meta name="generator" content="bookdown 0.25 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="3 Getting Started | Collections and Tables in Stata 17" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta name="github-repo" content="jimbotyson/collectionsandtables" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="3 Getting Started | Collections and Tables in Stata 17" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="acknowledgments.html"/>
+<link rel="next" href="some-stata-table-basics.html"/>
+<script src="libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+
+
+<link rel="stylesheet" href="css/readthedocs.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="2" data-path="acknowledgments.html"><a href="acknowledgments.html"><i class="fa fa-check"></i><b>2</b> Acknowledgments</a></li>
+<li class="chapter" data-level="3" data-path="getting-started.html"><a href="getting-started.html"><i class="fa fa-check"></i><b>3</b> Getting Started</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="getting-started.html"><a href="getting-started.html#prerequisites"><i class="fa fa-check"></i><b>3.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="3.2" data-path="getting-started.html"><a href="getting-started.html#software-requirements"><i class="fa fa-check"></i><b>3.2</b> Software Requirements</a></li>
+<li class="chapter" data-level="3.3" data-path="getting-started.html"><a href="getting-started.html#how-to-use-these-materials"><i class="fa fa-check"></i><b>3.3</b> How to use these materials</a></li>
+<li class="chapter" data-level="3.4" data-path="getting-started.html"><a href="getting-started.html#data"><i class="fa fa-check"></i><b>3.4</b> Data</a></li>
+<li class="chapter" data-level="3.5" data-path="getting-started.html"><a href="getting-started.html#reference-material"><i class="fa fa-check"></i><b>3.5</b> Reference material</a></li>
+<li class="chapter" data-level="3.6" data-path="getting-started.html"><a href="getting-started.html#to-be-added"><i class="fa fa-check"></i><b>3.6</b> To be added</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="some-stata-table-basics.html"><a href="some-stata-table-basics.html"><i class="fa fa-check"></i><b>4</b> Some Stata <code>table</code> basics</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="some-stata-table-basics.html"><a href="some-stata-table-basics.html#collections"><i class="fa fa-check"></i><b>4.1</b> Collections</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Collections and Tables in Stata 17</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="getting-started" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> Getting Started</h1>
+<div id="prerequisites" class="section level2" number="3.1">
+<h2><span class="header-section-number">3.1</span> Prerequisites</h2>
+<p>These tutorials assume basic knowledge of Stata and that you are comfortable using a computer with a modern user interface (for example Windows, MacOs, linux with Ubuntu) and that you will be happy typing commands in a console or a script. You will also need to learn how to navigate a folder or directory tree.</p>
+</div>
+<div id="software-requirements" class="section level2" number="3.2">
+<h2><span class="header-section-number">3.2</span> Software Requirements</h2>
+<p>Recent versions of Stata, 17 or later are required. You can check your version from the command line<a href="some-stata-table-basics.html#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> with <code>version</code>. You will also need to have a relatively up-to-date version of Microsoft Word.</p>
+</div>
+<div id="how-to-use-these-materials" class="section level2" number="3.3">
+<h2><span class="header-section-number">3.3</span> How to use these materials</h2>
+<p>Test all the code you see. Some of the code is written to be added to a script and you should develop a single script for all sections since some of the later material will assume that you have run earlier example code. Sometimes the tutorial suggests that you run a command on the console or command line and you should do so. Don’t add commands intended for the console to your script - they may cause your script to break and fail.</p>
+<p>Code to be executed and run by you looks like this:</p>
+<pre><code>type this at the console and hit return
+or add it to a script and run the script</code></pre>
+<p>Generally the tutorial will be explicit about when you should add code to a script.</p>
+<p>As the series progresses, I will provide less explicit detail in my instructions. You will move from</p>
+<pre><code>type these characters and hit return</code></pre>
+<p>to</p>
+<p>“The Stata command for a oneway anova is <code>oneway</code>. Use this command to test the mean of <code>boodpressure</code> by <code>ethnicity</code>”</p>
+<!-- ## Completion status -->
+<!-- As of 2022-03-29 the final section of the tutorial on **regression** is not yet complete. -->
+</div>
+<div id="data" class="section level2" number="3.4">
+<h2><span class="header-section-number">3.4</span> Data</h2>
+<p>The data file to be used in most exercises and examples is to be loaded from</p>
+<pre><code>https://www.ucl.ac.uk/~ccaajim/results</code></pre>
+</div>
+<div id="reference-material" class="section level2" number="3.5">
+<h2><span class="header-section-number">3.5</span> Reference material</h2>
+<p>The best source of learning material is at</p>
+</div>
+<div id="to-be-added" class="section level2" number="3.6">
+<h2><span class="header-section-number">3.6</span> To be added</h2>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="acknowledgments.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="some-stata-table-basics.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": {}
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["statattutoriableal.pdf"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

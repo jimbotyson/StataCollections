@@ -1,0 +1,13 @@
+---
+title: "Collections and Tables in Stata 17"
+site: bookdown::bookdown_site
+github-repo: jimbotyson/collectionsandtables
+output:
+  bookdown::gitbook
+---
+
+# Introduction
+
+This tutorial introduces the `collection` and `tables` commands used in Stata 17.  It includes basic information on creating a custom table from the results of descriptive or modelling commands; modifying the layout of tables and customising content and layout.
+
+*Last Updated: `r format(Sys.time(), "%b %d, %Y %l:%M %p")`*
